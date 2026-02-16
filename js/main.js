@@ -29,8 +29,12 @@
 
     function close() {
       backdrop.classList.remove("is-visible");
+      backdrop.setAttribute("aria-hidden", "true");
       blurOverlay.classList.remove("is-active");
       document.body.style.overflow = "";
+      if (document.activeElement && document.activeElement instanceof HTMLElement) {
+        document.activeElement.blur();
+      }
       currentCreator = null;
     }
 
@@ -73,9 +77,14 @@
       const twitchUrl = `https://twitch.tv/${encodeURIComponent(twitchId)}`;
       twitchBtn.dataset.twitchUrl = twitchUrl;
 
+      backdrop.setAttribute("aria-hidden", "false");
       backdrop.classList.add("is-visible");
       blurOverlay.classList.add("is-active");
       document.body.style.overflow = "hidden";
+
+      if (closeBtn) {
+        closeBtn.focus();
+      }
     }
 
     backdrop.addEventListener("click", function (evt) {

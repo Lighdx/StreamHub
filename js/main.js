@@ -20,8 +20,8 @@
     const tagsContainer = document.getElementById("modalTagsContainer");
     const gamesContainer = document.getElementById("modalGamesContainer");
     const followersEl = document.getElementById("modalFollowers");
-    const liveStatusEl = document.getElementById("modalLiveStatus");
-    const streamTitleEl = document.getElementById("modalStreamTitle");
+    const residenceEl = document.getElementById("modalLiveStatus");
+    const nationalityEl = document.getElementById("modalStreamTitle");
     const twitchBtn = document.getElementById("modalTwitchButton");
     const platformsContainer = document.getElementById("modalPlatformsContainer");
 
@@ -36,6 +36,38 @@
         document.activeElement.blur();
       }
       currentCreator = null;
+    }
+
+    function createPlatformIcon(platform) {
+      const wrapper = document.createElement("div");
+      wrapper.className = "modal-platform-icon";
+
+      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("viewBox", "0 0 24 24");
+
+      const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      circle.setAttribute("cx", "12");
+      circle.setAttribute("cy", "12");
+      circle.setAttribute("r", "9");
+
+      const p = (platform || "").toLowerCase();
+      if (p === "twitch") {
+        circle.setAttribute("fill", "#9146FF");
+      } else if (p === "youtube") {
+        circle.setAttribute("fill", "#FF0000");
+      } else if (p === "kick") {
+        circle.setAttribute("fill", "#53FC18");
+      } else if (p === "x" || p === "twitter") {
+        circle.setAttribute("fill", "#000000");
+      } else if (p === "instagram") {
+        circle.setAttribute("fill", "#E1306C");
+      } else {
+        circle.setAttribute("fill", "#6b7280");
+      }
+
+      svg.appendChild(circle);
+      wrapper.appendChild(svg);
+      return wrapper;
     }
 
     function open(creator) {
@@ -61,16 +93,14 @@
         gamesContainer.appendChild(span);
       });
 
-      followersEl.textContent = "—";
-      liveStatusEl.textContent = "Desconocido";
-      streamTitleEl.textContent = "Sin datos";
+      followersEl.textContent = creator.followers || "—";
+      residenceEl.textContent = creator.residence || "Desconocido";
+      nationalityEl.textContent = creator.nationality || "Sin datos";
 
       platformsContainer.innerHTML = "";
       (creator.platforms || []).forEach(p => {
-        const btn = document.createElement("div");
-        btn.className = "modal-platform-icon";
-        btn.textContent = p;
-        platformsContainer.appendChild(btn);
+        const icon = createPlatformIcon(p);
+        platformsContainer.appendChild(icon);
       });
 
       const twitchId = creator.twitch_id || creator.username;

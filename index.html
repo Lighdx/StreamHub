@@ -94,7 +94,6 @@
     <main class="site-main">
       <div class="max-width">
         <section class="creators-section" aria-label="Listado de streamers">
-          <div class="filters-grid-spacer"></div>
           <div id="creatorsGrid" class="creators-grid">
             <!-- Tarjetas generadas por JS -->
           </div>
@@ -121,37 +120,21 @@
           <div class="modal-body">
             <h2 id="modalUsername" class="modal-username">@username</h2>
 
-            <!-- TAGS PRINCIPALES -->
-            <div class="modal-tags">
-              <h3 class="modal-section-title">Tags</h3>
-              <div id="modalTagsContainer" class="modal-tags-list">
-                <!-- Tags -->
-              </div>
-            </div>
-
-            <!-- TAGS DE VIDEOJUEGOS -->
-            <div class="modal-games">
-              <h3 class="modal-section-title">Videojuegos</h3>
-              <div id="modalGamesContainer" class="modal-tags-list">
-                <!-- Games -->
-              </div>
-            </div>
-
             <p id="modalBio" class="modal-bio">Biografía del creador.</p>
 
             <div class="modal-twitch">
-              <h3 class="modal-section-title">Twitch</h3>
+              <h3 class="modal-section-title">Perfil</h3>
               <div class="modal-twitch-grid">
                 <div class="twitch-stat">
-                  <span class="stat-label">Seguidores</span>
+                  <span class="stat-label">Seguidores Twitch</span>
                   <span class="stat-value" id="modalFollowers">—</span>
                 </div>
                 <div class="twitch-stat">
-                  <span class="stat-label">Estado</span>
+                  <span class="stat-label">Residencia en</span>
                   <span class="stat-value" id="modalLiveStatus">Desconocido</span>
                 </div>
                 <div class="twitch-stat">
-                  <span class="stat-label">Título en vivo</span>
+                  <span class="stat-label">Nacionalidad</span>
                   <span class="stat-value" id="modalStreamTitle">Sin datos</span>
                 </div>
               </div>
@@ -166,17 +149,28 @@
             </div>
 
             <div class="modal-platforms">
-              <h3 class="modal-section-title">Plataformas</h3>
+              <h3 class="modal-section-title">Redes</h3>
               <div id="modalPlatformsContainer" class="modal-platforms-list">
                 <!-- Iconos de plataformas -->
               </div>
             </div>
 
-            <div class="modal-note">
-              <p class="modal-note-text">
-                Datos de Twitch serán cargados automáticamente cuando se integre la API oficial.
-              </p>
+            <!-- TAGS PRINCIPALES ABAJO -->
+            <div class="modal-tags">
+              <h3 class="modal-section-title">Tags</h3>
+              <div id="modalTagsContainer" class="modal-tags-list">
+                <!-- Tags -->
+              </div>
             </div>
+
+            <!-- TAGS DE VIDEOJUEGOS ABAJO -->
+            <div class="modal-games">
+              <h3 class="modal-section-title">Videojuegos</h3>
+              <div id="modalGamesContainer" class="modal-tags-list">
+                <!-- Games -->
+              </div>
+            </div>
+
           </div>
         </div>
       </div>

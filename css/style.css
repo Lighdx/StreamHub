@@ -974,16 +974,16 @@ body.header-hidden {
   padding: calc(var(--site-header-real-h) + var(--filters-h) + 28px) 0 40px;
 }
 
-/* Splash: dot pulsing (con color por tema) */
+
+/* Multi-pulse (3 ondas) con pausa entre ciclos */
 :root{
-  --pulse-dot-color: var(--accent-main); /* tema día: azul */
-  --pulse-dot-glow: rgba(59, 125, 216, 0.35); /* fallback día */
+  --pulse-dot-color: var(--accent-main);
+  --pulse-dot-glow: rgba(59, 125, 216, 0.33);
 }
 
 [data-theme="night"]{
-  /* ✅ mismo verde neón de tus iconos */
   --pulse-dot-color: var(--rrss-icon-color);
-  --pulse-dot-glow: rgba(43, 194, 14, 0.30);
+  --pulse-dot-glow: rgba(43, 194, 14, 0.28);
 }
 
 .splash-badge--dot{
@@ -1004,6 +1004,7 @@ body.header-hidden {
   position: relative;
 }
 
+/* Ring #1 (el principal) */
 .pulse-dot::after{
   content: "";
   position: absolute;
@@ -1011,20 +1012,38 @@ body.header-hidden {
   border-radius: 999px;
   background: var(--pulse-dot-glow);
   transform: scale(1);
-  opacity: 1;
-  animation: pulseDot 1.25s ease-out infinite;
+  opacity: 0;
+  animation: pulseWave 2.55s ease-out infinite;
+  will-change: transform, opacity;
 }
 
-@keyframes pulseDot{
-  0%   { transform: scale(1);   opacity: 0.85; }
-  60%  { transform: scale(3.2); opacity: 0; }
-  100% { transform: scale(3.2); opacity: 0; }
+/* Rings extra (#2 y #3) */
+.pulse-ring{
+  position: absolute;
+  inset: -2px;
+  border-radius: 999px;
+  background: var(--pulse-dot-glow);
+  transform: scale(1);
+  opacity: 0;
+  animation: pulseWave 2.55s ease-out infinite;
+  will-change: transform, opacity;
+}
+
+.pulse-ring.ring2{ animation-delay: 0.28s; }
+.pulse-ring.ring3{ animation-delay: 0.56s; }
+
+/* La animación “vive” al inicio y luego queda en pausa (sin generar ondas nuevas) */
+@keyframes pulseWave{
+  0%   { transform: scale(1);   opacity: 0.75; }
+  38%  { transform: scale(3.2); opacity: 0; }
+  100% { transform: scale(3.2); opacity: 0; } /* pausa hasta reiniciar */
 }
 
 /* Respeta “reducir movimiento” */
 @media (prefers-reduced-motion: reduce){
-  .pulse-dot::after{
-    animation: none;
+  .pulse-dot::after,
+  .pulse-ring{
+    animation: none !important;
     opacity: 0.25;
     transform: scale(2.2);
   }

@@ -421,11 +421,11 @@ body.header-hidden {
 }
 
 /* GRID */
-.creators-grid {
+.creators-grid{
   display: grid;
   grid-template-columns: 1fr;
-  gap: 18px;
-  margin-top: 0 !important;
+  row-gap: 42px;     /* vertical */
+  column-gap: 18px;  /* horizontal (igual que antes) */
 }
 
 /* BREAKPOINTS */

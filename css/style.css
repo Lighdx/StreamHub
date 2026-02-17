@@ -124,14 +124,14 @@ body {
   padding: 5px 0;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  background: rgba(255, 255, 255, 0.86);
+/*background: rgba(255, 255, 255, 0.86);*/
   transition:
     background var(--transition-medium),
     box-shadow var(--transition-medium);
 }
 
 [data-theme="night"] .filters-bar {
-  background: linear-gradient(120deg, rgba(15, 23, 42, 0.98), rgba(17, 24, 39, 0.96), rgba(15, 23, 42, 0.98));
+  /*background: linear-gradient(120deg, rgba(15, 23, 42, 0.98), rgba(17, 24, 39, 0.96), rgba(15, 23, 42, 0.98));*/
   box-shadow: 0 12px 36px rgba(15, 23, 42, 0.8);
 }
 
@@ -400,7 +400,7 @@ body {
 }
 
 [data-theme="night"] .creator-avatar {
-  border-color: rgba(15, 23, 42, 0.96);
+/*  border-color: rgba(15, 23, 42, 0.96);*/
 }
 
 /* CARD CONTENT */

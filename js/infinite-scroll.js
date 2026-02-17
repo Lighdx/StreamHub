@@ -14,6 +14,12 @@
   let sortMode = "random";
   let randomOrder = [];
 
+  // Anti spam-click
+  let lastSortClickTs = 0;
+
+  // Simple render lock (evita renders superpuestos por observer + resets)
+  let isRendering = false;
+
   function shuffle(arr) {
     // Durstenfeld/Fisher–Yates
     const a = arr.slice();
@@ -92,14 +98,14 @@
     a.title = platform;
     a.setAttribute("aria-label", platform);
 
-    // Si haces click en el icono, que no “burbujee” a otros clicks
+    // Que el click en el icono NO abra modal ni active otras cosas
     a.addEventListener("click", (e) => e.stopPropagation());
 
     const icon = document.createElement("span");
     icon.className = `rrss-icon rrss--${key}`;
     icon.setAttribute("aria-hidden", "true");
-    a.appendChild(icon);
 
+    a.appendChild(icon);
     return a;
   }
 
@@ -111,7 +117,7 @@
     if (!SORT_BTN) return;
 
     if (sortMode === "random") {
-      SORT_BTN.textContent = "AtoZ";
+      SORT_BTN.textContent = "Rnd";
       SORT_BTN.setAttribute("aria-pressed", "false");
     } else if (sortMode === "az") {
       SORT_BTN.textContent = "AtoZ";
@@ -122,17 +128,26 @@
     }
   }
 
-  function cycleSortMode() {
-    if (sortMode === "random") sortMode = "az";
-    else if (sortMode === "az") sortMode = "za";
-    else sortMode = "random";
+  function cycleSortMode(evt) {
+    const now = Date.now();
+    if (now - lastSortClickTs < 180) return;
+    lastSortClickTs = now;
+
+    // Alt+click vuelve a random (opcional)
+    if (evt && evt.altKey) {
+      sortMode = "random";
+    } else {
+      // Toggle SOLO A→Z <-> Z→A (random queda como estado default, no como tercer click)
+      if (sortMode === "random") sortMode = "az";
+      else if (sortMode === "az") sortMode = "za";
+      else sortMode = "az";
+    }
 
     updateSortButtonUI();
     resetAndRender();
   }
 
   function recomputeFiltered() {
-    // Base list: randomOrder si está en random; si no, el orden base del array
     const base = (sortMode === "random") ? randomOrder : allCreators;
 
     filteredCreators = base.filter(c => {
@@ -166,7 +181,6 @@
     function openModal() {
       if (window.VSDModal) window.VSDModal.open(creator);
     }
-
     avatarWrapper.addEventListener("click", openModal);
 
     const body = document.createElement("div");
@@ -177,7 +191,6 @@
     usernameBtn.className = "creator-username-btn";
     usernameBtn.textContent = `@${creator.username}`;
     usernameBtn.addEventListener("click", openModal);
-
     body.appendChild(usernameBtn);
 
     const platformsRow = document.createElement("div");
@@ -196,8 +209,10 @@
   }
 
   function renderNextBatch() {
+    if (isRendering) return;
     if (renderedCount >= filteredCreators.length) return;
 
+    isRendering = true;
     LOADER.classList.add("is-visible");
 
     const start = renderedCount;
@@ -209,14 +224,14 @@
 
     renderedCount = end;
     LOADER.classList.remove("is-visible");
+    isRendering = false;
   }
 
   function resetAndRender() {
     GRID.innerHTML = "";
     renderedCount = 0;
 
-    // ✅ “Siempre aleatorio” mientras sortMode sea random:
-    // cada cambio de filtro / reset vuelve a mezclar.
+    // “Siempre aleatorio” mientras sortMode sea random
     if (sortMode === "random") {
       randomOrder = shuffle(allCreators);
     }
@@ -240,7 +255,7 @@
   function init(creators) {
     allCreators = creators.slice();
 
-    // ✅ Aleatorio al cargar por primera vez
+    // Aleatorio al cargar
     randomOrder = shuffle(allCreators);
 
     updateSortButtonUI();
@@ -250,9 +265,9 @@
 
     if (SORT_BTN) {
       SORT_BTN.addEventListener("click", function (e) {
-        // Muy importante: que este click no lo procese filters.js
+        // Evita que filters.js lo trate como pill y desactive "Todos"
         e.stopPropagation();
-        cycleSortMode();
+        cycleSortMode(e);
       });
     }
   }

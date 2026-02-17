@@ -851,3 +851,99 @@ body {
 /* Tus contenedores actuales */
 .platform-icon-btn svg{display:none;} /* por si aún hay SVG inline viejos */
 .modal-platform-icon svg{display:none;}
+
+/* Splash screen */
+.splash{
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(1200px circle at 20% 10%, rgba(43, 194, 14, 0.25), transparent 45%),
+    radial-gradient(900px circle at 80% 40%, rgba(59, 125, 216, 0.18), transparent 45%),
+    linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.92));
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(1.03);
+  transition: opacity 520ms cubic-bezier(0.25, 0.1, 0.25, 1),
+              transform 520ms cubic-bezier(0.25, 0.1, 0.25, 1),
+              visibility 0ms linear 520ms;
+}
+
+[data-theme="night"] .splash{
+  background:
+    radial-gradient(1200px circle at 20% 10%, rgba(43, 194, 14, 0.18), transparent 45%),
+    radial-gradient(900px circle at 80% 40%, rgba(34, 211, 238, 0.12), transparent 45%),
+    linear-gradient(180deg, rgba(2,6,23,0.96), rgba(0,0,0,0.92));
+}
+
+.splash.is-visible{
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+  transition: opacity 520ms cubic-bezier(0.25, 0.1, 0.25, 1),
+              transform 520ms cubic-bezier(0.25, 0.1, 0.25, 1),
+              visibility 0ms;
+}
+
+.splash-inner{
+  text-align: center;
+  padding: 20px 18px;
+  max-width: 520px;
+}
+
+.splash-badge{
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  margin: 0 auto 14px;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  background: rgba(255,255,255,0.7);
+  border: 1px solid var(--border-subtle);
+  box-shadow: 0 18px 50px rgba(15, 23, 42, 0.25);
+}
+
+[data-theme="night"] .splash-badge{
+  background: rgba(15, 23, 42, 0.6);
+}
+
+.splash-title{
+  margin: 0 0 8px;
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+}
+
+.splash-subtitle{
+  margin: 0;
+  color: var(--text-subtle);
+  font-size: 0.95rem;
+}
+
+/* Fondo “home” mientras splash está arriba (estilo Apple: blur + zoom suave) */
+.app-content{
+  transition: filter 520ms cubic-bezier(0.25, 0.1, 0.25, 1),
+              transform 520ms cubic-bezier(0.25, 0.1, 0.25, 1),
+              opacity 520ms cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.app-content.is-hidden-by-splash{
+  filter: blur(10px);
+  transform: scale(0.985);
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+/* Accesibilidad: reducir movimiento */
+@media (prefers-reduced-motion: reduce){
+  .splash,
+  .app-content{
+    transition: none !important;
+  }
+}

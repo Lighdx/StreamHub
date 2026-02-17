@@ -10,6 +10,15 @@
 <body>
   <div class="app-root">
 
+<!-- Splash screen -->
+<div id="splashScreen" class="splash is-visible" aria-hidden="false">
+  <div class="splash-inner">
+    <div class="splash-badge">VSD</div>
+    <h1 class="splash-title">Venezuelan Streamers Directory</h1>
+    <p class="splash-subtitle">Click, scroll o presiona una tecla para entrar</p>
+  </div>
+</div>
+<div id="appContent" class="app-content is-hidden-by-splash"></div>
     <header class="site-header">
       <div class="max-width">
         <div class="branding">
@@ -176,10 +185,11 @@
     </button>
 
   </div>
-
+</div>
   <script src="js/theme-switcher.js"></script>
   <script src="js/filters.js"></script>
   <script src="js/infinite-scroll.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/splash.js"></script>
 </body>
 </html>

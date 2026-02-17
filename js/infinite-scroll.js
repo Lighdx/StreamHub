@@ -14,8 +14,8 @@
     if (!p) return null;
 
     if (p === "twitch") return "twitch";
-    if (p === "youtube" || p === "you tube") return "youtube";
     if (p === "kick") return "kick";
+    if (p === "youtube" || p === "you tube") return "youtube";
     if (p === "x" || p === "twitter") return "x";
     if (p === "instagram" || p === "ig") return "ig";
     if (p === "email" || p === "mail" || p === "correo") return "email";
@@ -23,22 +23,73 @@
     return null;
   }
 
-  function createPlatformIcon(platform) {
+  function isProbablyUrl(value) {
+    const v = (value || "").trim().toLowerCase();
+    return v.startsWith("http://") || v.startsWith("https://") || v.startsWith("mailto:");
+  }
+
+  function buildUrlFromHandle(key, handleOrUrl) {
+    if (!handleOrUrl) return null;
+    const raw = String(handleOrUrl).trim();
+    if (!raw) return null;
+
+    if (isProbablyUrl(raw)) return raw;
+
+    const handle = raw.startsWith("@") ? raw.slice(1) : raw;
+
+    if (key === "twitch") return `https://twitch.tv/${encodeURIComponent(handle)}`;
+    if (key === "kick") return `https://kick.com/${encodeURIComponent(handle)}`;
+    if (key === "x") return `https://x.com/${encodeURIComponent(handle)}`;
+    if (key === "ig") return `https://instagram.com/${encodeURIComponent(handle)}`;
+    if (key === "youtube") return `https://youtube.com/@${encodeURIComponent(handle)}`;
+    if (key === "email") return `mailto:${handle}`;
+
+    return null;
+  }
+
+  function getCreatorLink(creator, key) {
+    // 1) Prioridad: creator.links[key] (handle o URL completa)
+    if (creator && creator.links && creator.links[key]) {
+      return buildUrlFromHandle(key, creator.links[key]);
+    }
+
+    // 2) Fallback: twitch_id o username si existe
+    if (key === "twitch") {
+      const twitchId = (creator.twitch_id || creator.username || "").trim();
+      if (!twitchId) return null;
+      return buildUrlFromHandle("twitch", twitchId);
+    }
+
+    return null;
+  }
+
+  function createPlatformIcon(creator, platform) {
     const key = normalizePlatformKey(platform);
     if (!key) return null;
 
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "platform-icon-btn";
-    btn.title = platform;
-    btn.setAttribute("aria-label", platform);
+    const url = getCreatorLink(creator, key);
+    if (!url) return null;
+
+    // ✅ Link real (clickeable)
+    const a = document.createElement("a");
+    a.className = "platform-icon-btn";
+    a.href = url;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    a.title = platform;
+    a.setAttribute("aria-label", platform);
+
+    // Evita que el click “burbujee” y dispare otros handlers (por si luego haces click en card)
+    a.addEventListener("click", (e) => {
+      e.stopPropagation();
+    });
 
     const icon = document.createElement("span");
     icon.className = `rrss-icon rrss--${key}`;
     icon.setAttribute("aria-hidden", "true");
-    btn.appendChild(icon);
 
-    return btn;
+    a.appendChild(icon);
+    return a;
   }
 
   function createCard(creator) {
@@ -79,8 +130,8 @@
     platformsRow.className = "creator-platforms";
 
     (creator.platforms || []).forEach(p => {
-      const btn = createPlatformIcon(p);
-      if (btn) platformsRow.appendChild(btn);
+      const el = createPlatformIcon(creator, p);
+      if (el) platformsRow.appendChild(el);
     });
 
     body.appendChild(platformsRow);
@@ -95,15 +146,13 @@
 
   function renderNextBatch() {
     if (renderedCount >= filteredCreators.length) return;
-
     LOADER.classList.add("is-visible");
 
     const start = renderedCount;
     const end = Math.min(start + BATCH_SIZE, filteredCreators.length);
 
     for (let i = start; i < end; i++) {
-      const creator = filteredCreators[i];
-      GRID.appendChild(createCard(creator));
+      GRID.appendChild(createCard(filteredCreators[i]));
     }
 
     renderedCount = end;
@@ -125,13 +174,11 @@
 
   function initObserver() {
     if (!SENTINEL) return;
-
     observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) renderNextBatch();
       });
     }, { rootMargin: "200px 0px" });
-
     observer.observe(SENTINEL);
   }
 

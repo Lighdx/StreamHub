@@ -194,3 +194,25 @@
     }
   };
 })();
+
+document.addEventListener("keydown", function (evt) {
+  if (evt.key !== "Escape") return;
+
+  const toggleBtn = document.getElementById("filtersToggleBtn");
+  const panel = document.getElementById("filtersPanel");
+
+  const gamesToggle = document.getElementById("gamesToggleBtn");
+  const gamesPanel = document.getElementById("gamesPanel");
+
+  if (gamesPanel && gamesPanel.classList.contains("is-open")) {
+    gamesPanel.classList.remove("is-open");
+    gamesPanel.setAttribute("aria-hidden", "true");
+    if (gamesToggle) gamesToggle.setAttribute("aria-expanded", "false");
+  }
+
+  if (panel && panel.classList.contains("is-open")) {
+    panel.classList.remove("is-open");
+    panel.setAttribute("aria-hidden", "true");
+    if (toggleBtn) toggleBtn.setAttribute("aria-expanded", "false");
+  }
+});

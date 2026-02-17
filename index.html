@@ -10,7 +10,6 @@
 <body>
   <div class="app-root">
 
-    <!-- HEADER -->
     <header class="site-header">
       <div class="max-width">
         <div class="branding">
@@ -23,11 +22,11 @@
       </div>
     </header>
 
-    <!-- FILTER BAR -->
     <section class="filters-section">
       <div class="max-width">
         <div class="filters-bar" id="filtersBar">
           <div class="filters-left">
+
             <div class="search-and-filter-row">
               <div class="search-wrapper">
                 <input
@@ -37,6 +36,7 @@
                   placeholder="Buscar por nombre..."
                   aria-label="Buscar creador por nombre">
               </div>
+
               <button
                 type="button"
                 id="filtersToggleBtn"
@@ -46,24 +46,29 @@
                 aria-label="Mostrar u ocultar filtros avanzados">
                 <span class="filters-toggle-icon">☰</span>
               </button>
-              <!-- Botón TODOS siempre visible -->
+
+              <!-- ✅ Orden alfabético: random -> A→Z -> Z→A -> random -->
+              <button
+                type="button"
+                id="sortAlphaBtn"
+                class="tag-pill"
+                aria-pressed="false"
+                aria-label="Ordenar alfabéticamente"
+                title="Ordenar A→Z / Z→A (tercer click vuelve a aleatorio)">
+                AtoZ
+              </button>
+
               <button class="tag-pill is-active" data-tag="all" data-tag-group="meta">
                 Todos
                 <span class="tag-count" id="tag-count-all">0</span>
               </button>
             </div>
 
-            <!-- PANEL DE FILTROS PLEGABLE -->
-            <div
-              class="filters-panel"
-              id="filtersPanel"
-              aria-hidden="true">
+            <div class="filters-panel" id="filtersPanel" aria-hidden="true">
               <div class="tags-group" aria-label="Filtrar por categoría">
-                <!-- Tags dinámicos -->
                 <div id="dynamicTagPills" class="dynamic-tags"></div>
               </div>
 
-              <!-- Menú de videojuegos -->
               <div class="games-filter-group">
                 <button
                   type="button"
@@ -74,29 +79,24 @@
                   Videojuegos
                   <span class="games-toggle-icon">▾</span>
                 </button>
-                <div
-                  class="games-panel"
-                  id="gamesPanel"
-                  aria-hidden="true">
+
+                <div class="games-panel" id="gamesPanel" aria-hidden="true">
                   <button class="tag-pill game-pill" data-game="Valorant">Valorant</button>
                   <button class="tag-pill game-pill" data-game="Counter">Counter</button>
                   <button class="tag-pill game-pill" data-game="Spider">Spider</button>
                 </div>
               </div>
             </div>
-          </div>
 
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- MAIN CONTENT -->
     <main class="site-main">
       <div class="max-width">
         <section class="creators-section" aria-label="Listado de streamers">
-          <div id="creatorsGrid" class="creators-grid">
-            <!-- Tarjetas generadas por JS -->
-          </div>
+          <div id="creatorsGrid" class="creators-grid"></div>
           <div id="gridSentinel" class="grid-sentinel" aria-hidden="true"></div>
           <div id="loadingIndicator" class="loading-indicator" aria-hidden="true">
             <span class="loader-dot"></span>
@@ -107,19 +107,16 @@
       </div>
     </main>
 
-    <!-- MODAL PERFIL EXTENDIDO -->
     <div id="profileModal" class="modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true">
       <div class="modal-dialog" role="document">
-        <button class="modal-close-btn" type="button" id="modalCloseBtn" aria-label="Cerrar perfil">
-          ×
-        </button>
+        <button class="modal-close-btn" type="button" id="modalCloseBtn" aria-label="Cerrar perfil">×</button>
         <div class="modal-content">
           <div class="modal-avatar-wrapper">
             <img id="modalAvatar" src="assets/avatar-placeholder-1.png" alt="Avatar del creador" class="modal-avatar">
           </div>
+
           <div class="modal-body">
             <h2 id="modalUsername" class="modal-username">@username</h2>
-
             <p id="modalBio" class="modal-bio">Biografía del creador.</p>
 
             <div class="modal-twitch">
@@ -138,37 +135,29 @@
                   <span class="stat-value" id="modalStreamTitle">Sin datos</span>
                 </div>
               </div>
+
               <button
                 id="modalTwitchButton"
                 class="primary-btn"
                 type="button"
-                data-twitch-url="#"
-              >
+                data-twitch-url="#">
                 Abrir perfil de Twitch
               </button>
             </div>
 
             <div class="modal-platforms">
               <h3 class="modal-section-title">Redes</h3>
-              <div id="modalPlatformsContainer" class="modal-platforms-list">
-                <!-- Iconos de plataformas -->
-              </div>
+              <div id="modalPlatformsContainer" class="modal-platforms-list"></div>
             </div>
 
-            <!-- TAGS PRINCIPALES ABAJO -->
             <div class="modal-tags">
               <h3 class="modal-section-title">Tags</h3>
-              <div id="modalTagsContainer" class="modal-tags-list">
-                <!-- Tags -->
-              </div>
+              <div id="modalTagsContainer" class="modal-tags-list"></div>
             </div>
 
-            <!-- TAGS DE VIDEOJUEGOS ABAJO -->
             <div class="modal-games">
               <h3 class="modal-section-title">Videojuegos</h3>
-              <div id="modalGamesContainer" class="modal-tags-list">
-                <!-- Games -->
-              </div>
+              <div id="modalGamesContainer" class="modal-tags-list"></div>
             </div>
 
           </div>
@@ -176,10 +165,8 @@
       </div>
     </div>
 
-    <!-- OVERLAY PARA BLUR GLOBAL EN MODAL -->
     <div id="appBlurOverlay" class="app-blur-overlay"></div>
 
-    <!-- TOGGLE DE TEMA FLOTANTE -->
     <button
       id="floatingThemeToggle"
       class="floating-theme-toggle"

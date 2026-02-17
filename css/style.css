@@ -1108,3 +1108,34 @@ body.header-hidden {
     transform: scale(2.2);
   }
 }
+
+.floating-note-btn{
+  position: fixed;
+  right: 16px;
+  bottom: 70px; /* 18px (bottom del toggle) + 42px (alto) + ~10px (separación) */
+  width: 42px;
+  height: 42px;
+
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface-elevated);
+  color: var(--text-subtle);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-decoration: none;
+  line-height: 1;
+  font-size: 18px;
+
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.4);
+  z-index: 50;
+  transition: all var(--transition-fast);
+}
+
+.floating-note-btn:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.65);
+  color: var(--accent-main);
+}

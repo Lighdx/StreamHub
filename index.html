@@ -200,14 +200,16 @@
 
     <div id="appBlurOverlay" class="app-blur-overlay"></div>
 
-<a
-  class="floating-note-btn"
-  href="https://forms.gle/98rMpJSiJTxxgk9R6"
-  target="_blank"
-  rel="noopener noreferrer"
-  aria-label="Abrir formulario"
->📝</a>
+<div class="floating-actions">
+  <a
+    class="floating-note-btn"
+    href="https://forms.gle/98rMpJSiJTxxgk9R6"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Abrir formulario"
+  >📝</a>
 
+  <button class="floating-theme-toggle" id="themeToggleBtn" type="button" aria-label="Cambiar tema">
     <button
       id="floatingThemeToggle"
       class="floating-theme-toggle"
@@ -215,8 +217,9 @@
       aria-label="Cambiar tema">
       <span class="floating-theme-icon">☾</span>
     </button>
+  </button>
+</div>
 
-  </div>
 </div>
   <script src="js/theme-switcher.js"></script>
   <script src="js/filters.js"></script>

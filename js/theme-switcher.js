@@ -1,95 +1,79 @@
 (function () {
-  const ROOT = document.documentElement;
-  const STORAGE_KEY = "vsd-theme-mode"; // "auto" | "day" | "night"
-  const THEME_ATTR = "data-theme";
+  const STORAGE_KEY = "vsd_theme_mode"; // "auto" | "day" | "night"
+  const html = document.documentElement;
 
-  const INLINE_TOGGLE_BTN = document.getElementById("themeToggleBtn");
-  const INLINE_LABEL = INLINE_TOGGLE_BTN ? INLINE_TOGGLE_BTN.querySelector(".theme-label") : null;
+  const btn = document.getElementById("floatingThemeToggle");
+  if (!btn) return;
 
-  const FLOATING_TOGGLE = document.getElementById("floatingThemeToggle");
-  const FLOATING_ICON = FLOATING_TOGGLE ? FLOATING_TOGGLE.querySelector(".floating-theme-icon") : null;
-
-  function getLocalHour() {
-    const now = new Date();
-    return now.getHours();
+  let iconSpan = btn.querySelector(".floating-theme-icon");
+  if (!iconSpan) {
+    iconSpan = document.createElement("span");
+    iconSpan.className = "floating-theme-icon";
+    btn.appendChild(iconSpan);
   }
 
-  function computeAutoTheme() {
-    const hour = getLocalHour();
-    return hour >= 6 && hour < 18 ? "day" : "night";
+  let badgeSpan = btn.querySelector(".floating-theme-badge");
+  if (!badgeSpan) {
+    badgeSpan = document.createElement("span");
+    badgeSpan.className = "floating-theme-badge";
+    badgeSpan.textContent = "Auto";
+    btn.appendChild(badgeSpan);
   }
 
-  function applyTheme(theme) {
-    ROOT.setAttribute(THEME_ATTR, theme);
+  const mediaDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)");
+
+  function getSystemTheme() {
+    if (!mediaDark) return "day";
+    return mediaDark.matches ? "night" : "day";
   }
 
-  function readStoredMode() {
-    try {
-      return localStorage.getItem(STORAGE_KEY) || "auto";
-    } catch {
-      return "auto";
-    }
+  function setButtonUI(mode, effectiveTheme) {
+    // Icono según tema efectivo
+    iconSpan.textContent = effectiveTheme === "night" ? "☾" : "☀";
+
+    // Badge visible solo en AUTO
+    const isAuto = mode === "auto";
+    badgeSpan.style.display = isAuto ? "inline-flex" : "none";
+    badgeSpan.textContent = "Auto"; // si prefieres solo "A", cambia esto a "A"
   }
 
-  function storeMode(mode) {
-    try {
-      localStorage.setItem(STORAGE_KEY, mode);
-    } catch {
-      // ignore
-    }
+  function applyMode(mode) {
+    const effectiveTheme = mode === "auto" ? getSystemTheme() : mode;
+
+    html.setAttribute("data-theme", effectiveTheme);
+    btn.setAttribute("aria-label", mode === "auto" ? "Tema automático" : `Tema ${effectiveTheme}`);
+
+    setButtonUI(mode, effectiveTheme);
   }
 
-  function updateInlineLabel(mode) {
-    if (!INLINE_LABEL) return;
-    if (mode === "auto") INLINE_LABEL.textContent = "Auto";
-    else if (mode === "day") INLINE_LABEL.textContent = "Día";
-    else INLINE_LABEL.textContent = "Noche";
+  function getSavedMode() {
+    const saved = (localStorage.getItem(STORAGE_KEY) || "").toLowerCase();
+    if (saved === "day" || saved === "night" || saved === "auto") return saved;
+    return "auto";
   }
 
-  function updateFloatingIcon(mode, effectiveTheme) {
-    if (!FLOATING_ICON) return;
-    if (mode === "auto") {
-      FLOATING_ICON.textContent = effectiveTheme === "day" ? "☀" : "☾";
-    } else if (mode === "day") {
-      FLOATING_ICON.textContent = "☀";
-    } else {
-      FLOATING_ICON.textContent = "☾";
-    }
+  function saveMode(mode) {
+    localStorage.setItem(STORAGE_KEY, mode);
   }
 
-  function syncCurrentTheme() {
-    const mode = readStoredMode();
-    let effective = mode;
-    if (mode === "auto") {
-      effective = computeAutoTheme();
-    }
-    applyTheme(effective);
-    updateInlineLabel(mode);
-    updateFloatingIcon(mode, effective);
+  function nextMode(mode) {
+    if (mode === "auto") return "day";
+    if (mode === "day") return "night";
+    return "auto";
   }
 
-  function nextMode(current) {
-    return current === "auto" ? "day" : current === "day" ? "night" : "auto";
-  }
+  let mode = getSavedMode();
+  applyMode(mode);
 
-  function toggleMode() {
-    const current = readStoredMode();
-    const next = nextMode(current);
-    storeMode(next);
-    syncCurrentTheme();
-  }
-
-  document.addEventListener("DOMContentLoaded", function () {
-    syncCurrentTheme();
-    if (INLINE_TOGGLE_BTN) {
-      INLINE_TOGGLE_BTN.addEventListener("click", toggleMode);
-    }
-    if (FLOATING_TOGGLE) {
-      FLOATING_TOGGLE.addEventListener("click", toggleMode);
-    }
+  btn.addEventListener("click", function () {
+    mode = nextMode(mode);
+    saveMode(mode);
+    applyMode(mode);
   });
 
-  window.VSDTheme = {
-    sync: syncCurrentTheme
-  };
+  if (mediaDark && typeof mediaDark.addEventListener === "function") {
+    mediaDark.addEventListener("change", function () {
+      if (mode === "auto") applyMode("auto");
+    });
+  }
 })();

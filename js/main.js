@@ -10,6 +10,27 @@
       });
   }
 
+  function normalizePlatformKey(platform) {
+    const p = (platform || "").trim().toLowerCase();
+    if (!p) return null;
+
+    if (p === "twitch") return "twitch";
+    if (p === "kick") return "kick";
+    if (p === "youtube" || p === "you tube") return "youtube";
+    if (p === "x" || p === "twitter") return "x";
+    if (p === "instagram" || p === "ig") return "ig";
+    if (p === "email" || p === "mail" || p === "correo") return "email";
+
+    return null;
+  }
+
+  function createRrssIcon(key) {
+    const span = document.createElement("span");
+    span.className = `rrss-icon rrss--${key}`;
+    span.setAttribute("aria-hidden", "true");
+    return span;
+  }
+
   function initModal() {
     const backdrop = document.getElementById("profileModal");
     const blurOverlay = document.getElementById("appBlurOverlay");
@@ -38,40 +59,9 @@
       currentCreator = null;
     }
 
-    function createPlatformIcon(platform) {
-      const wrapper = document.createElement("div");
-      wrapper.className = "modal-platform-icon";
-
-      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-      svg.setAttribute("viewBox", "0 0 24 24");
-
-      const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-      circle.setAttribute("cx", "12");
-      circle.setAttribute("cy", "12");
-      circle.setAttribute("r", "9");
-
-      const p = (platform || "").toLowerCase();
-      if (p === "twitch") {
-        circle.setAttribute("fill", "#9146FF");
-      } else if (p === "youtube") {
-        circle.setAttribute("fill", "#FF0000");
-      } else if (p === "kick") {
-        circle.setAttribute("fill", "#53FC18");
-      } else if (p === "x" || p === "twitter") {
-        circle.setAttribute("fill", "#000000");
-      } else if (p === "instagram") {
-        circle.setAttribute("fill", "#E1306C");
-      } else {
-        circle.setAttribute("fill", "#6b7280");
-      }
-
-      svg.appendChild(circle);
-      wrapper.appendChild(svg);
-      return wrapper;
-    }
-
     function open(creator) {
       currentCreator = creator;
+
       avatar.src = creator.avatar_url || "assets/avatar-placeholder-1.png";
       avatar.alt = `Avatar de ${creator.username}`;
       usernameEl.textContent = `@${creator.username}`;
@@ -97,10 +87,18 @@
       residenceEl.textContent = creator.residence || "Desconocido";
       nationalityEl.textContent = creator.nationality || "Sin datos";
 
+      // ✅ Redes (iconos desde /assets/rrss)
       platformsContainer.innerHTML = "";
-      (creator.platforms || []).forEach(p => {
-        const icon = createPlatformIcon(p);
-        platformsContainer.appendChild(icon);
+      (creator.platforms || []).forEach(platform => {
+        const key = normalizePlatformKey(platform);
+        if (!key) return;
+
+        const item = document.createElement("div");
+        item.className = "modal-platform-icon";
+        item.setAttribute("title", platform);
+        item.setAttribute("aria-label", platform);
+        item.appendChild(createRrssIcon(key));
+        platformsContainer.appendChild(item);
       });
 
       const twitchId = creator.twitch_id || creator.username;
@@ -112,23 +110,17 @@
       blurOverlay.classList.add("is-active");
       document.body.style.overflow = "hidden";
 
-      if (closeBtn) {
-        closeBtn.focus();
-      }
+      if (closeBtn) closeBtn.focus();
     }
 
     backdrop.addEventListener("click", function (evt) {
-      if (evt.target === backdrop) {
-        close();
-      }
+      if (evt.target === backdrop) close();
     });
 
     closeBtn.addEventListener("click", close);
 
     document.addEventListener("keydown", function (evt) {
-      if (evt.key === "Escape") {
-        close();
-      }
+      if (evt.key === "Escape") close();
     });
 
     twitchBtn.addEventListener("click", function () {
@@ -137,22 +129,15 @@
       window.open(url, "_blank", "noopener");
     });
 
-    window.VSDModal = {
-      open,
-      close
-    };
+    window.VSDModal = { open, close };
   }
 
   document.addEventListener("DOMContentLoaded", function () {
     initModal();
 
     fetchCreators().then(creators => {
-      if (window.VSDFilters) {
-        window.VSDFilters.init(creators);
-      }
-      if (window.VSDInfiniteScroll) {
-        window.VSDInfiniteScroll.init(creators);
-      }
+      if (window.VSDFilters) window.VSDFilters.init(creators);
+      if (window.VSDInfiniteScroll) window.VSDInfiniteScroll.init(creators);
     });
   });
 })();

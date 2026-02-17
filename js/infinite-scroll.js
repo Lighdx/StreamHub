@@ -9,37 +9,35 @@
   let renderedCount = 0;
   let observer = null;
 
+  function normalizePlatformKey(platform) {
+    const p = (platform || "").trim().toLowerCase();
+    if (!p) return null;
+
+    if (p === "twitch") return "twitch";
+    if (p === "youtube" || p === "you tube") return "youtube";
+    if (p === "kick") return "kick";
+    if (p === "x" || p === "twitter") return "x";
+    if (p === "instagram" || p === "ig") return "ig";
+    if (p === "email" || p === "mail" || p === "correo") return "email";
+
+    return null;
+  }
+
   function createPlatformIcon(platform) {
+    const key = normalizePlatformKey(platform);
+    if (!key) return null;
+
     const btn = document.createElement("button");
     btn.type = "button";
     btn.className = "platform-icon-btn";
     btn.title = platform;
     btn.setAttribute("aria-label", platform);
 
-    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svg.setAttribute("viewBox", "0 0 24 24");
+    const icon = document.createElement("span");
+    icon.className = `rrss-icon rrss--${key}`;
+    icon.setAttribute("aria-hidden", "true");
+    btn.appendChild(icon);
 
-    const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-    circle.setAttribute("cx", "12");
-    circle.setAttribute("cy", "12");
-    circle.setAttribute("r", "9");
-
-    if (platform.toLowerCase() === "twitch") {
-      circle.setAttribute("fill", "#9146FF");
-    } else if (platform.toLowerCase() === "youtube") {
-      circle.setAttribute("fill", "#FF0000");
-    } else if (platform.toLowerCase() === "kick") {
-      circle.setAttribute("fill", "#53FC18");
-    } else if (platform.toLowerCase() === "x" || platform.toLowerCase() === "twitter") {
-      circle.setAttribute("fill", "#000000");
-    } else if (platform.toLowerCase() === "instagram") {
-      circle.setAttribute("fill", "#E1306C");
-    } else {
-      circle.setAttribute("fill", "#6b7280");
-    }
-
-    svg.appendChild(circle);
-    btn.appendChild(svg);
     return btn;
   }
 
@@ -61,9 +59,7 @@
     card.appendChild(avatarWrapper);
 
     function openModal() {
-      if (window.VSDModal) {
-        window.VSDModal.open(creator);
-      }
+      if (window.VSDModal) window.VSDModal.open(creator);
     }
 
     avatarWrapper.addEventListener("click", openModal);
@@ -84,7 +80,7 @@
 
     (creator.platforms || []).forEach(p => {
       const btn = createPlatformIcon(p);
-      platformsRow.appendChild(btn);
+      if (btn) platformsRow.appendChild(btn);
     });
 
     body.appendChild(platformsRow);
@@ -99,15 +95,17 @@
 
   function renderNextBatch() {
     if (renderedCount >= filteredCreators.length) return;
+
     LOADER.classList.add("is-visible");
 
     const start = renderedCount;
     const end = Math.min(start + BATCH_SIZE, filteredCreators.length);
+
     for (let i = start; i < end; i++) {
       const creator = filteredCreators[i];
-      const card = createCard(creator);
-      GRID.appendChild(card);
+      GRID.appendChild(createCard(creator));
     }
+
     renderedCount = end;
     LOADER.classList.remove("is-visible");
   }
@@ -127,15 +125,13 @@
 
   function initObserver() {
     if (!SENTINEL) return;
+
     observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          renderNextBatch();
-        }
+        if (entry.isIntersecting) renderNextBatch();
       });
-    }, {
-      rootMargin: "200px 0px"
-    });
+    }, { rootMargin: "200px 0px" });
+
     observer.observe(SENTINEL);
   }
 

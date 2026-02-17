@@ -109,7 +109,7 @@ body {
 /* FILTER BAR */
 .filters-section {
   position: fixed;
-  /*top: 76px;  ✅ FIX: baja filtros debajo del header sticky */
+  top: 76px;  /*✅ IMPORTANTE: NO comentarlo */
   left: 0;
   right: 0;
   z-index: 19;
@@ -786,3 +786,57 @@ body {
     padding: 28px 18px 20px;
   }
 }
+
+/* RRSS icons (SVG externos recoloreados con mask) */
+:root{
+  --rrss-icon-color: #11181C; /* tema claro */
+}
+
+[data-theme="night"]{
+  --rrss-icon-color: #2bc20e; /* tema oscuro */
+}
+
+.rrss-icon{
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  background-color: var(--rrss-icon-color);
+
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
+
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+}
+
+/* Mapeo de archivos */
+.rrss--email{
+  -webkit-mask-image: url("../assets/rrss/email.svg");
+  mask-image: url("../assets/rrss/email.svg");
+}
+.rrss--ig{
+  -webkit-mask-image: url("../assets/rrss/ig.svg");
+  mask-image: url("../assets/rrss/ig.svg");
+}
+.rrss--kick{
+  -webkit-mask-image: url("../assets/rrss/kick.svg");
+  mask-image: url("../assets/rrss/kick.svg");
+}
+.rrss--twitch{
+  -webkit-mask-image: url("../assets/rrss/twitch.svg");
+  mask-image: url("../assets/rrss/twitch.svg");
+}
+.rrss--x{
+  -webkit-mask-image: url("../assets/rrss/x.svg");
+  mask-image: url("../assets/rrss/x.svg");
+}
+.rrss--youtube{
+  -webkit-mask-image: url("../assets/rrss/youtube.svg");
+  mask-image: url("../assets/rrss/youtube.svg");
+}
+
+/* Tus contenedores actuales */
+.platform-icon-btn svg{display:none;} /* por si aún hay SVG inline viejos */
+.modal-platform-icon svg{display:none;}

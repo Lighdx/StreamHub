@@ -38,6 +38,15 @@
   --card-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
   --card-shadow-hover: 0 18px 50px rgba(15, 23, 42, 0.22);
   --glass-blur: 16px;
+
+  /* RRSS icons (tema claro por defecto) */
+  --rrss-icon-color: #11181C;
+
+  /* --- Layout offsets (header fixed + filtros fixed) --- */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --site-header-h: 0px;       /* offset "efectivo" para colocar filtros (se vuelve 0 cuando el header se esconde) */
+  --site-header-real-h: 0px;  /* alto real para animación del header */
+  --filters-h: 0px;
 }
 
 /* NIGHT THEME OVERRIDES */
@@ -52,6 +61,9 @@
   --accent-soft: var(--night-accent-soft);
   --card-shadow: 0 18px 40px rgba(15, 23, 42, 0.8);
   --card-shadow-hover: 0 26px 80px rgba(56, 189, 248, 0.6);
+
+  /* RRSS icon color (tema oscuro) */
+  --rrss-icon-color: #2bc20e;
 }
 
 /* BASE */
@@ -89,21 +101,43 @@ body {
   padding: 0 16px;
 }
 
-/* HEADER */
+/* HEADER (auto-hide) */
 .site-header {
   padding: 20px 0 8px;
-  position: sticky;
+  position: fixed; /* antes sticky */
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 20;
+
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0.85), transparent);
   border-bottom: 1px solid var(--border-subtle);
-  transition: background var(--transition-medium), border-color var(--transition-medium);
+
+  /* safe-area top sin romper tu layout */
+  padding-top: calc(20px + var(--safe-top));
+
+  transform: translateY(0);
+  will-change: transform;
+  transition:
+    transform 260ms cubic-bezier(0.25, 0.1, 0.25, 1),
+    background var(--transition-medium),
+    border-color var(--transition-medium);
 }
 
 [data-theme="night"] .site-header {
   background: linear-gradient(to bottom, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.8), transparent);
+}
+
+/* Cuando scrolleas hacia abajo */
+body.header-hidden .site-header {
+  transform: translateY(calc(-1 * var(--site-header-real-h)));
+}
+
+/* En header-hidden, los filtros suben a top:0, pero el contenido NO debe saltar */
+body.header-hidden {
+  --site-header-h: 0px; /* solo afecta a .filters-section (top), no al padding del main */
 }
 
 /* FILTER BAR */
@@ -112,7 +146,7 @@ body {
   top: var(--site-header-h);
   left: 0;
   right: 0;
-  z-index: 19;
+  z-index: 25; /* por encima del header */
   padding: 10px 0;
 }
 
@@ -124,16 +158,18 @@ body {
   padding: 5px 0;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-/*background: rgba(255, 255, 255, 0.86);*/
+  /* background: rgba(255, 255, 255, 0.86); */
   transition:
     background var(--transition-medium),
     box-shadow var(--transition-medium);
 }
 
-/*[data-theme="night"] .filters-bar {
-  /*background: linear-gradient(120deg, rgba(15, 23, 42, 0.98), rgba(17, 24, 39, 0.96), rgba(15, 23, 42, 0.98));*/
-  /*box-shadow: 0 12px 36px rgba(15, 23, 42, 0.8);
-}*/
+/*
+[data-theme="night"] .filters-bar {
+  background: linear-gradient(120deg, rgba(15, 23, 42, 0.98), rgba(17, 24, 39, 0.96), rgba(15, 23, 42, 0.98));
+  box-shadow: 0 12px 36px rgba(15, 23, 42, 0.8);
+}
+*/
 
 .filters-left {
   display: flex;
@@ -322,7 +358,7 @@ body {
 
 /* MAIN */
 .site-main {
-  padding: 5px 0 40px;
+  padding: 5px 0 40px; /* fallback */
 }
 
 .creators-section {
@@ -334,7 +370,7 @@ body {
   display: grid;
   grid-template-columns: 1fr;
   gap: 18px;
-  /*margin-top: 130px;  compensa header+filtros fijos */
+  margin-top: 0 !important;
 }
 
 /* BREAKPOINTS */
@@ -398,10 +434,6 @@ body {
   object-fit: cover;
   box-shadow: 0 10px 10px rgba(15, 23, 42, 0.4);
 }
-
-/*[data-theme="night"] .creator-avatar {
-  border-color: rgba(15, 23, 42, 0.96);
-}*/
 
 /* CARD CONTENT */
 .creator-card-body {
@@ -753,7 +785,8 @@ body {
 /* SMALL SCREENS */
 @media (max-width: 599px) {
   .site-header {
-    padding-top: 14px;
+    /* mantiene el header más compacto, sumando safe-area */
+    padding-top: calc(25px + var(--safe-top));
   }
 
   .branding {
@@ -765,14 +798,15 @@ body {
     height: 40px;
   }
 
+  /* OJO: NO top fijo aquí, lo maneja var(--site-header-h) */
   .filters-bar {
     flex-direction: column;
     align-items: stretch;
   }
 
-/*  .creators-grid {
-    margin-top: 150px;
-  }*/
+  .creators-grid {
+    gap: 40px; /* gap más grande solo en teléfono */
+  }
 
   .modal-dialog {
     padding: 10px;
@@ -784,15 +818,7 @@ body {
 }
 
 /* RRSS icons (SVG externos recoloreados con mask) */
-:root{
-  --rrss-icon-color: #11181C; /* tema claro */
-}
-
-[data-theme="night"]{
-  --rrss-icon-color: #2bc20e; /* tema oscuro */
-}
-
-.rrss-icon{
+.rrss-icon {
   width: 16px;
   height: 16px;
   display: inline-block;
@@ -808,48 +834,45 @@ body {
 }
 
 /* Ajustes finos por icono */
-.rrss-icon.rrss--email{ width: 16px; height: 16px; }
-.rrss-icon.rrss--ig{ width: 17px; height: 17px; }
-.rrss-icon.rrss--kick{ width: 16px; height: 16px; }
-.rrss-icon.rrss--twitch{ width: 14px; height: 14px; }
-.rrss-icon.rrss--x{ width: 16px; height: 16px; }
-.rrss-icon.rrss--youtube{ width: 16px; height: 16px; }
-
-
-
+.rrss-icon.rrss--email { width: 16px; height: 16px; }
+.rrss-icon.rrss--ig { width: 17px; height: 17px; }
+.rrss-icon.rrss--kick { width: 16px; height: 16px; }
+.rrss-icon.rrss--twitch { width: 14px; height: 14px; }
+.rrss-icon.rrss--x { width: 16px; height: 16px; }
+.rrss-icon.rrss--youtube { width: 16px; height: 16px; }
 
 /* Mapeo de archivos */
-.rrss--email{
+.rrss--email {
   -webkit-mask-image: url("../assets/rrss/email.svg");
   mask-image: url("../assets/rrss/email.svg");
 }
-.rrss--ig{
+.rrss--ig {
   -webkit-mask-image: url("../assets/rrss/ig.svg");
   mask-image: url("../assets/rrss/ig.svg");
 }
-.rrss--kick{
+.rrss--kick {
   -webkit-mask-image: url("../assets/rrss/kick.svg");
   mask-image: url("../assets/rrss/kick.svg");
 }
-.rrss--twitch{
+.rrss--twitch {
   -webkit-mask-image: url("../assets/rrss/twitch.svg");
   mask-image: url("../assets/rrss/twitch.svg");
 }
-.rrss--x{
+.rrss--x {
   -webkit-mask-image: url("../assets/rrss/x.svg");
   mask-image: url("../assets/rrss/x.svg");
 }
-.rrss--youtube{
+.rrss--youtube {
   -webkit-mask-image: url("../assets/rrss/youtube.svg");
   mask-image: url("../assets/rrss/youtube.svg");
 }
 
 /* Tus contenedores actuales */
-.platform-icon-btn svg{display:none;} /* por si aún hay SVG inline viejos */
-.modal-platform-icon svg{display:none;}
+.platform-icon-btn svg { display: none; }
+.modal-platform-icon svg { display: none; }
 
 /* Splash screen */
-.splash{
+.splash {
   position: fixed;
   inset: 0;
   z-index: 1000;
@@ -858,7 +881,7 @@ body {
   background:
     radial-gradient(1200px circle at 20% 10%, rgba(43, 194, 14, 0.25), transparent 45%),
     radial-gradient(900px circle at 80% 40%, rgba(59, 125, 216, 0.18), transparent 45%),
-    linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.92));
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.92));
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
 
@@ -870,14 +893,14 @@ body {
               visibility 0ms linear 520ms;
 }
 
-[data-theme="night"] .splash{
+[data-theme="night"] .splash {
   background:
     radial-gradient(1200px circle at 20% 10%, rgba(43, 194, 14, 0.18), transparent 45%),
     radial-gradient(900px circle at 80% 40%, rgba(34, 211, 238, 0.12), transparent 45%),
-    linear-gradient(180deg, rgba(2,6,23,0.96), rgba(0,0,0,0.92));
+    linear-gradient(180deg, rgba(2, 6, 23, 0.96), rgba(0, 0, 0, 0.92));
 }
 
-.splash.is-visible{
+.splash.is-visible {
   opacity: 1;
   visibility: visible;
   transform: scale(1);
@@ -886,13 +909,13 @@ body {
               visibility 0ms;
 }
 
-.splash-inner{
+.splash-inner {
   text-align: center;
   padding: 20px 18px;
   max-width: 520px;
 }
 
-.splash-badge{
+.splash-badge {
   width: 64px;
   height: 64px;
   border-radius: 18px;
@@ -901,35 +924,35 @@ body {
   place-items: center;
   font-weight: 700;
   letter-spacing: 0.06em;
-  background: rgba(255,255,255,0.7);
+  background: rgba(255, 255, 255, 0.7);
   border: 1px solid var(--border-subtle);
   box-shadow: 0 18px 50px rgba(15, 23, 42, 0.25);
 }
 
-[data-theme="night"] .splash-badge{
+[data-theme="night"] .splash-badge {
   background: rgba(15, 23, 42, 0.6);
 }
 
-.splash-title{
+.splash-title {
   margin: 0 0 8px;
   font-size: 1.35rem;
   letter-spacing: -0.02em;
 }
 
-.splash-subtitle{
+.splash-subtitle {
   margin: 0;
   color: var(--text-subtle);
   font-size: 0.95rem;
 }
 
-/* Fondo “home” mientras splash está arriba (estilo Apple: blur + zoom suave) */
-.app-content{
+/* Fondo “home” mientras splash está arriba */
+.app-content {
   transition: filter 520ms cubic-bezier(0.25, 0.1, 0.25, 1),
               transform 520ms cubic-bezier(0.25, 0.1, 0.25, 1),
               opacity 520ms cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
-.app-content.is-hidden-by-splash{
+.app-content.is-hidden-by-splash {
   filter: blur(10px);
   transform: scale(0.985);
   opacity: 0.35;
@@ -937,45 +960,16 @@ body {
 }
 
 /* Accesibilidad: reducir movimiento */
-@media (prefers-reduced-motion: reduce){
+@media (prefers-reduced-motion: reduce) {
   .splash,
-  .app-content{
+  .app-content {
     transition: none !important;
   }
 }
 
-/* --- Layout offsets (header sticky + filtros fixed) --- */
-:root{
-  --safe-top: env(safe-area-inset-top, 0px);
-  --site-header-h: 0px;
-  --filters-h: 0px;
-}
-
-/* Respeta notch sin cambiar tu padding lateral/abajo del header */
-.site-header{
-  padding-top: calc(20px + var(--safe-top));
-}
-
-/* En mobile, tu header es más compacto pero igual suma safe-area */
-@media (max-width: 599px) {
-  .site-header{
-    padding-top: calc(25px + var(--safe-top));
-  }
-}
-
-/* La barra de filtros va SIEMPRE debajo del header real */
-.filters-section{
-  top: var(--site-header-h);
-}
-
-/* ✅ NO sumes header aquí (ya ocupa espacio); solo compensa la barra fija */
-.site-main{
-  padding: calc(var(--filters-h) + 22px) 0 40px;
-}
-
-/* Gap más grande SOLO en teléfono */
-@media (max-width: 599px) {
-  .creators-grid{
-    gap: 40px;
-  }
+/* --- Layout final (sobrescribe el fallback de .site-main) --- */
+/* Importante: usamos el alto REAL del header para el padding del contenido,
+   así el contenido no "salta" cuando el header se oculta. */
+.site-main {
+  padding: calc(var(--site-header-real-h) + var(--filters-h) + 16px) 0 40px;
 }

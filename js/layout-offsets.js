@@ -10,12 +10,12 @@
     const filtersBar = document.querySelector(".filters-bar");
     const filtersSection = document.querySelector(".filters-section");
 
-    const headerH = header ? header.offsetHeight : 0; // incluye padding/borde [web:344]
+    const headerH = header ? header.offsetHeight : 0;
 
-    // Solo la barra visible (sin contar el panel desplegable)
-    let filtersH = filtersBar ? filtersBar.offsetHeight : 0; // incluye padding/borde [web:344]
+    // Medimos SOLO lo visible fijo (barra), no el panel desplegable
+    let filtersH = filtersBar ? filtersBar.offsetHeight : 0;
 
-    // Suma el padding vertical del contenedor fijo (tu 10px 0)
+    // Suma padding vertical de la sección fija (tu "padding: 10px 0")
     if (filtersSection) {
       const cs = getComputedStyle(filtersSection);
       filtersH += parseFloat(cs.paddingTop) || 0;

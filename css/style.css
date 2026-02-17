@@ -944,36 +944,38 @@ body {
   }
 }
 
-/* --- Layout offsets (evita que el header tape la barra) --- */
+/* --- Layout offsets (header sticky + filtros fixed) --- */
 :root{
   --safe-top: env(safe-area-inset-top, 0px);
   --site-header-h: 0px;
   --filters-h: 0px;
 }
 
-/* Solo añadimos safe-area sin romper tus paddings existentes */
+/* Respeta notch sin cambiar tu padding lateral/abajo del header */
 .site-header{
   padding-top: calc(20px + var(--safe-top));
 }
 
-/* Filtros siempre debajo del header real */
+/* En mobile, tu header es más compacto pero igual suma safe-area */
+@media (max-width: 599px) {
+  .site-header{
+    padding-top: calc(14px + var(--safe-top));
+  }
+}
+
+/* La barra de filtros va SIEMPRE debajo del header real */
 .filters-section{
   top: var(--site-header-h);
 }
 
-/* El contenido nunca se va detrás del header+filtros */
+/* ✅ NO sumes header aquí (ya ocupa espacio); solo compensa la barra fija */
 .site-main{
-  padding-top: calc( var(--filters-h) + 32px)
+  padding: calc(var(--filters-h) + 16px) 0 40px;
 }
 
-/* Asegura que el grid no agregue separación extra */
-.creators-grid{
-  margin-top: 0 !important;
-}
-
-/* Mobile: respeta tu padding-top más compacto, pero igual suma safe-area */
+/* Gap más grande SOLO en teléfono */
 @media (max-width: 599px) {
-  .site-header{
-    padding-top: calc(14px + var(--safe-top));
+  .creators-grid{
+    gap: 26px;
   }
 }

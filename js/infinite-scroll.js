@@ -117,7 +117,7 @@
     if (!SORT_BTN) return;
 
     if (sortMode === "random") {
-      SORT_BTN.textContent = "Rnd";
+      SORT_BTN.textContent = "Rndm";
       SORT_BTN.setAttribute("aria-pressed", "false");
     } else if (sortMode === "az") {
       SORT_BTN.textContent = "AtoZ";

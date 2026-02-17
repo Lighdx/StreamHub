@@ -5,10 +5,20 @@
     "avatar_url": "assets/avatar-placeholder-1.png",
     "tags": ["Gaming", "FPS", "Spanish"],
     "games": ["Valorant", "Counter"],
-    "platforms": ["Twitch"],
+    "platforms": ["Twitch", "X", "YouTube", "Instagram", "Email"],
     "twitch_id": "arepas_gamer",
     "bio": "Streamer venezolano de FPS y shooters tácticos, energía alta y comunidad chill.",
-    "language": "Spanish"
+    "language": "Spanish",
+    "followers": "12.4K",
+    "residence": "Santiago, CL",
+    "nationality": "Venezolana",
+    "links": {
+      "twitch": "arepas_gamer",
+      "x": "arepas_gamer",
+      "youtube": "arepas_gamer",
+      "ig": "arepas_gamer",
+      "email": "arepas_gamer@email.com"
+    }
   },
   {
     "id": 2,
@@ -16,10 +26,19 @@
     "avatar_url": "assets/avatar-placeholder-2.png",
     "tags": ["Art", "Illustration", "Spanish"],
     "games": ["Spider"],
-    "platforms": ["Twitch", "Instagram"],
+    "platforms": ["Twitch", "Instagram", "X", "Email"],
     "twitch_id": "artcaracas",
     "bio": "Ilustraciones digitales, fanart y charlas relajadas desde Caracas.",
-    "language": "Spanish"
+    "language": "Spanish",
+    "followers": "3.1K",
+    "residence": "Caracas, VE",
+    "nationality": "Venezolana",
+    "links": {
+      "twitch": "artcaracas",
+      "ig": "artcaracas",
+      "x": "artcaracas",
+      "email": "hola@artcaracas.com"
+    }
   },
   {
     "id": 3,
@@ -27,10 +46,19 @@
     "avatar_url": "assets/avatar-placeholder-1.png",
     "tags": ["VTuber", "Anime", "English"],
     "games": ["Valorant"],
-    "platforms": ["YouTube"],
+    "platforms": ["YouTube", "X", "Instagram", "Email"],
     "twitch_id": "",
     "bio": "VTuber venezolana con streams comfy y juegos indies.",
-    "language": "English"
+    "language": "English",
+    "followers": "—",
+    "residence": "Miami, US",
+    "nationality": "Venezolana",
+    "links": {
+      "youtube": "ven_vtuber",
+      "x": "ven_vtuber",
+      "ig": "ven_vtuber",
+      "email": "ven_vtuber@email.com"
+    }
   },
   {
     "id": 4,
@@ -38,9 +66,18 @@
     "avatar_url": "assets/avatar-placeholder-2.png",
     "tags": ["IRL", "Travel", "Spanish"],
     "games": [],
-    "platforms": ["Twitch", "Kick"],
+    "platforms": ["Twitch", "Kick", "X", "Email"],
     "twitch_id": "irl_ccs",
     "bio": "Recorriendo Venezuela en directo, comida callejera y cultura local.",
-    "language": "Spanish"
+    "language": "Spanish",
+    "followers": "28.9K",
+    "residence": "Caracas, VE",
+    "nationality": "Venezolana",
+    "links": {
+      "twitch": "irl_ccs",
+      "kick": "irl_ccs",
+      "x": "irl_ccs",
+      "email": "contacto@irlccs.com"
+    }
   }
 ]

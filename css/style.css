@@ -109,7 +109,7 @@ body {
 /* FILTER BAR */
 .filters-section {
   position: fixed;
-  top: 76px;  /*✅ IMPORTANTE: NO comentarlo */
+  /*top: 76px;*/
   left: 0;
   right: 0;
   z-index: 19;
@@ -130,10 +130,10 @@ body {
     box-shadow var(--transition-medium);
 }
 
-[data-theme="night"] .filters-bar {
+/*[data-theme="night"] .filters-bar {
   /*background: linear-gradient(120deg, rgba(15, 23, 42, 0.98), rgba(17, 24, 39, 0.96), rgba(15, 23, 42, 0.98));*/
-  /*box-shadow: 0 12px 36px rgba(15, 23, 42, 0.8);*/
-}
+  /*box-shadow: 0 12px 36px rgba(15, 23, 42, 0.8);
+}*/
 
 .filters-left {
   display: flex;
@@ -399,9 +399,9 @@ body {
   box-shadow: 0 10px 10px rgba(15, 23, 42, 0.4);
 }
 
-[data-theme="night"] .creator-avatar {
-/*  border-color: rgba(15, 23, 42, 0.96);*/
-}
+/*[data-theme="night"] .creator-avatar {
+  border-color: rgba(15, 23, 42, 0.96);
+}*/
 
 /* CARD CONTENT */
 .creator-card-body {

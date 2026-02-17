@@ -24,25 +24,66 @@
     return null;
   }
 
-  function createRrssIcon(key) {
-    const span = document.createElement("span");
-    span.className = `rrss-icon rrss--${key}`;
-    span.setAttribute("aria-hidden", "true");
-    return span;
+  function isProbablyUrl(value) {
+    const v = (value || "").trim().toLowerCase();
+    return v.startsWith("http://") || v.startsWith("https://") || v.startsWith("mailto:");
+  }
+
+  function buildUrlFromHandle(key, handleOrUrl) {
+    if (!handleOrUrl) return null;
+    const raw = String(handleOrUrl).trim();
+    if (!raw) return null;
+
+    if (isProbablyUrl(raw)) return raw;
+
+    // Si te pasan "@usuario", lo normalizamos
+    const handle = raw.startsWith("@") ? raw.slice(1) : raw;
+
+    if (key === "twitch") return `https://twitch.tv/${encodeURIComponent(handle)}`;
+    if (key === "kick") return `https://kick.com/${encodeURIComponent(handle)}`;
+    if (key === "x") return `https://x.com/${encodeURIComponent(handle)}`;
+    if (key === "ig") return `https://instagram.com/${encodeURIComponent(handle)}`;
+    if (key === "youtube") {
+      // YouTube puede ser canal/handle; con @handle suele funcionar:
+      return `https://youtube.com/@${encodeURIComponent(handle)}`;
+    }
+    if (key === "email") return `mailto:${handle}`;
+
+    return null;
+  }
+
+  function getCreatorLink(creator, key) {
+    // 1) Si existe creator.links[key], lo usamos (puede ser URL completa o handle corto)
+    if (creator && creator.links && creator.links[key]) {
+      return buildUrlFromHandle(key, creator.links[key]);
+    }
+
+    // 2) Fallbacks de compatibilidad con tu JSON antiguo
+    if (key === "twitch") {
+      const twitchId = (creator.twitch_id || creator.username || "").trim();
+      if (!twitchId) return null;
+      return buildUrlFromHandle("twitch", twitchId);
+    }
+
+    return null;
   }
 
   function initModal() {
     const backdrop = document.getElementById("profileModal");
     const blurOverlay = document.getElementById("appBlurOverlay");
     const closeBtn = document.getElementById("modalCloseBtn");
+
     const avatar = document.getElementById("modalAvatar");
     const usernameEl = document.getElementById("modalUsername");
     const bioEl = document.getElementById("modalBio");
+
     const tagsContainer = document.getElementById("modalTagsContainer");
     const gamesContainer = document.getElementById("modalGamesContainer");
+
     const followersEl = document.getElementById("modalFollowers");
     const residenceEl = document.getElementById("modalLiveStatus");
     const nationalityEl = document.getElementById("modalStreamTitle");
+
     const twitchBtn = document.getElementById("modalTwitchButton");
     const platformsContainer = document.getElementById("modalPlatformsContainer");
 
@@ -53,9 +94,6 @@
       backdrop.setAttribute("aria-hidden", "true");
       blurOverlay.classList.remove("is-active");
       document.body.style.overflow = "";
-      if (document.activeElement && document.activeElement instanceof HTMLElement) {
-        document.activeElement.blur();
-      }
       currentCreator = null;
     }
 
@@ -87,23 +125,45 @@
       residenceEl.textContent = creator.residence || "Desconocido";
       nationalityEl.textContent = creator.nationality || "Sin datos";
 
-      // ✅ Redes (iconos desde /assets/rrss)
+      // ✅ Redes clickeables (anchors)
       platformsContainer.innerHTML = "";
-      (creator.platforms || []).forEach(platform => {
-        const key = normalizePlatformKey(platform);
+
+      (creator.platforms || []).forEach(platformName => {
+        const key = normalizePlatformKey(platformName);
         if (!key) return;
 
-        const item = document.createElement("div");
-        item.className = "modal-platform-icon";
-        item.setAttribute("title", platform);
-        item.setAttribute("aria-label", platform);
-        item.appendChild(createRrssIcon(key));
-        platformsContainer.appendChild(item);
+        const url = getCreatorLink(creator, key);
+        if (!url) return;
+
+        const a = document.createElement("a");
+        a.className = "modal-platform-icon";
+        a.href = url;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        a.title = platformName;
+        a.setAttribute("aria-label", platformName);
+
+        const icon = document.createElement("span");
+        icon.className = `rrss-icon rrss--${key}`;
+        icon.setAttribute("aria-hidden", "true");
+
+        a.appendChild(icon);
+        platformsContainer.appendChild(a);
       });
 
-      const twitchId = creator.twitch_id || creator.username;
-      const twitchUrl = `https://twitch.tv/${encodeURIComponent(twitchId)}`;
-      twitchBtn.dataset.twitchUrl = twitchUrl;
+      // Botón Twitch: usa links.twitch si existe; si no, fallback a twitch_id/username
+      const twitchUrl = getCreatorLink(creator, "twitch");
+      if (twitchUrl) {
+        twitchBtn.dataset.twitchUrl = twitchUrl;
+        twitchBtn.disabled = false;
+        twitchBtn.style.opacity = "";
+        twitchBtn.style.cursor = "";
+      } else {
+        twitchBtn.dataset.twitchUrl = "";
+        twitchBtn.disabled = true;
+        twitchBtn.style.opacity = "0.6";
+        twitchBtn.style.cursor = "not-allowed";
+      }
 
       backdrop.setAttribute("aria-hidden", "false");
       backdrop.classList.add("is-visible");

@@ -963,7 +963,7 @@ body {
 
 /* El contenido nunca se va detrás del header+filtros */
 .site-main{
-  padding-top: calc(var(--site-header-h) + var(--filters-h) + 12px);
+  padding-top: calc( var(--filters-h) + 32px)
 }
 
 /* Asegura que el grid no agregue separación extra */

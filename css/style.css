@@ -971,5 +971,81 @@ body.header-hidden {
 /* Importante: usamos el alto REAL del header para el padding del contenido,
    así el contenido no "salta" cuando el header se oculta. */
 .site-main {
-  padding: calc(var(--site-header-real-h) + var(--filters-h) + 16px) 0 40px;
+  padding: calc(var(--site-header-real-h) + var(--filters-h) + 28px) 0 40px;
+}
+
+/* Splash badge con SVG animado */
+.splash-badge--anim{
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  width: 80px;
+  height: 80px;
+}
+
+.splash-mark{
+  width: 80px;
+  height: 80px;
+  display: block;
+}
+
+/* Colores (usan tus tokens) */
+.splash-ring{
+  fill: none;
+  stroke: var(--accent-main);
+  stroke-width: 3.2;
+  stroke-linecap: round;
+  stroke-dasharray: 8 10;
+  opacity: 0.85;
+}
+
+.splash-core{
+  fill: color-mix(in srgb, var(--accent-main) 18%, var(--bg-surface) 82%);
+  stroke: color-mix(in srgb, var(--accent-main) 28%, transparent 72%);
+  stroke-width: 1;
+}
+
+.splash-core-dot{
+  fill: var(--accent-main);
+  opacity: 0.95;
+}
+
+.splash-member{
+  fill: var(--bg-surface-elevated);
+  stroke: color-mix(in srgb, var(--accent-main) 55%, transparent 45%);
+  stroke-width: 1.2;
+}
+
+/* Animaciones estilo “Apple-ish”: rotación suave + flotación */
+.splash-spin{
+  transform-origin: 48px 48px;
+  animation: splashSpin 4.2s linear infinite;
+}
+
+.splash-member{
+  transform-origin: 48px 48px;
+  animation: splashBob 1.8s ease-in-out infinite;
+}
+
+.splash-member.m2{ animation-delay: 0.10s; }
+.splash-member.m3{ animation-delay: 0.20s; }
+.splash-member.m4{ animation-delay: 0.30s; }
+.splash-member.m5{ animation-delay: 0.40s; }
+
+@keyframes splashSpin{
+  from{ transform: rotate(0deg); }
+  to{ transform: rotate(360deg); }
+}
+
+@keyframes splashBob{
+  0%,100%{ transform: translateY(0) scale(1); }
+  50%{ transform: translateY(-2.5px) scale(1.03); }
+}
+
+/* Respeta “reducir movimiento” */
+@media (prefers-reduced-motion: reduce){
+  .splash-spin,
+  .splash-member{
+    animation: none !important;
+  }
 }

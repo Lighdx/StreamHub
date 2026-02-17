@@ -116,16 +116,33 @@
 
     let currentCreator = null;
 
-    function close() {
+    // History API: para que “atrás” cierre el modal en móvil en vez de salir del sitio
+    let modalPushedState = false;
+
+    function close(opts) {
+      const fromPopstate = opts && opts.fromPopstate;
+
       backdrop.classList.remove("is-visible");
       backdrop.setAttribute("aria-hidden", "true");
       blurOverlay.classList.remove("is-active");
       document.body.style.overflow = "";
       currentCreator = null;
+
+      // Si se cerró por UI (X/click afuera/ESC), limpiamos el estado extra del history
+      if (!fromPopstate && modalPushedState) {
+        modalPushedState = false;
+        history.back();
+      }
     }
 
     function open(creator) {
       currentCreator = creator;
+
+      // Empuja un estado al abrir para que “atrás” cierre el modal (no salga del sitio)
+      if (!modalPushedState) {
+        history.pushState({ vsdModal: true }, "", window.location.href);
+        modalPushedState = true;
+      }
 
       avatar.src = creator.avatar_url || "assets/avatar-placeholder-1.png";
       avatar.alt = `Avatar de ${creator.username}`;
@@ -187,11 +204,22 @@
       if (closeBtn) closeBtn.focus();
     }
 
+    // Si el usuario hace “atrás” (botón o gesto), cerramos el modal.
+    window.addEventListener("popstate", function () {
+      const isOpen = backdrop.classList.contains("is-visible");
+      if (!isOpen) return;
+
+      modalPushedState = false;
+      close({ fromPopstate: true });
+    }); // popstate se dispara cuando cambia la entrada activa del history. [web:590]
+
     backdrop.addEventListener("click", function (evt) {
       if (evt.target === backdrop) close();
     });
 
-    closeBtn.addEventListener("click", close);
+    closeBtn.addEventListener("click", function () {
+      close();
+    });
 
     document.addEventListener("keydown", function (evt) {
       if (evt.key === "Escape") close();

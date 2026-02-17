@@ -58,6 +58,9 @@
         e.stopPropagation();
         const isOpen = !FILTERS_PANEL.classList.contains("is-open");
         setFiltersPanelOpen(isOpen);
+
+        // Regla: al usar el botón de Filtros, se cierra el panel de videojuegos
+        setGamesPanelOpen(false);
       });
     }
 
@@ -78,7 +81,7 @@
     // UI: search
     if (SEARCH_INPUT) SEARCH_INPUT.value = "";
 
-    // UI: tags (no tocar games ni AtoZ)
+    // UI: tags (no tocar AtoZ)
     document.querySelectorAll(".tag-pill").forEach(el => {
       if (el.id === "sortAlphaBtn") return;
       if (el.classList.contains("game-pill")) return;
@@ -89,7 +92,7 @@
     // UI: games
     document.querySelectorAll(".game-pill").forEach(el => el.classList.remove("is-active"));
 
-    // opcional: cerrar paneles
+    // Regla: papelera cierra todo
     setGamesPanelOpen(false);
     setFiltersPanelOpen(false);
 
@@ -98,31 +101,23 @@
 
   function attachEvents() {
     document.addEventListener("click", function (evt) {
-      // Ignorar el botón de orden AtoZ (para que no afecte tags)
+      // Ignorar el botón de orden AtoZ
       if (evt.target && evt.target.closest && evt.target.closest("#sortAlphaBtn")) {
         return;
       }
 
-      // Botón papelera
+      // Papelera
       if (evt.target && evt.target.closest && evt.target.closest("#clearFiltersBtn")) {
         clearAllFilters();
         return;
       }
 
-      // Cerrar paneles si clickeas afuera
+      // Cerrar SOLO el panel de filtros si clickeas afuera (gamesPanel NO se cierra aquí)
       const clickedInsideFiltersPanel = evt.target.closest && evt.target.closest("#filtersPanel");
       const clickedFiltersToggle = evt.target.closest && evt.target.closest("#filtersToggleBtn");
-      const clickedInsideGamesPanel = evt.target.closest && evt.target.closest("#gamesPanel");
-      const clickedGamesToggle = evt.target.closest && evt.target.closest("#gamesToggleBtn");
-
       if (FILTERS_PANEL && FILTERS_PANEL.classList.contains("is-open")) {
         if (!clickedInsideFiltersPanel && !clickedFiltersToggle) {
           setFiltersPanelOpen(false);
-        }
-      }
-      if (GAMES_PANEL && GAMES_PANEL.classList.contains("is-open")) {
-        if (!clickedInsideGamesPanel && !clickedGamesToggle) {
-          setGamesPanelOpen(false);
         }
       }
 
@@ -135,12 +130,23 @@
         if (!tag) return;
 
         if (tag === "all") {
+          // Regla: "Todos" debe mostrar a todos (limpia tags + games + search)
           activeTags.clear();
+          activeGames.clear();
+          searchTerm = "";
+          if (SEARCH_INPUT) SEARCH_INPUT.value = "";
+
           document.querySelectorAll(".tag-pill").forEach(el => {
             if (el.id === "sortAlphaBtn") return;
             if (!el.classList.contains("game-pill")) el.classList.remove("is-active");
           });
           if (ALL_TAG_BUTTON) ALL_TAG_BUTTON.classList.add("is-active");
+
+          document.querySelectorAll(".game-pill").forEach(el => el.classList.remove("is-active"));
+
+          // Regla: "Todos" cierra panel videojuegos y panel filtros
+          setGamesPanelOpen(false);
+          setFiltersPanelOpen(false);
         } else {
           if (activeTags.has(tag)) {
             activeTags.delete(tag);
@@ -155,6 +161,8 @@
             if (anyActive) ALL_TAG_BUTTON.classList.remove("is-active");
             else ALL_TAG_BUTTON.classList.add("is-active");
           }
+
+          // Importante: NO cerrar gamesPanel al tocar tags
         }
 
         window.VSDFilters && window.VSDFilters.onFilterChange();
@@ -185,8 +193,6 @@
         window.VSDFilters && window.VSDFilters.onFilterChange();
       });
     }
-
-    // ESC ya lo tienes abajo (lo dejo igual)
   }
 
   function creatorMatchesFilters(creator) {
@@ -258,7 +264,6 @@
       span.textContent = counts.tags[tag];
     });
 
-    // Para tags que existan en UI pero no en subset, poner 0
     document.querySelectorAll('.tag-pill[data-tag]').forEach(btn => {
       const tag = btn.dataset.tag;
       if (!tag || tag === "all") return;
@@ -308,8 +313,6 @@
     attachEvents();
 
     if (ALL_TAG_BUTTON) ALL_TAG_BUTTON.classList.add("is-active");
-
-    // Primer pintado de counts (sin filtros)
     refreshCounts();
   }
 
@@ -317,12 +320,8 @@
     init,
     matches: creatorMatchesFilters,
     onFilterChange: function () {
-      // actualiza counts según el estado actual
       refreshCounts();
-
-      if (window.VSDInfiniteScroll) {
-        window.VSDInfiniteScroll.resetAndRender();
-      }
+      if (window.VSDInfiniteScroll) window.VSDInfiniteScroll.resetAndRender();
     },
     clearAll: clearAllFilters
   };
@@ -337,6 +336,7 @@ document.addEventListener("keydown", function (evt) {
   const gamesToggle = document.getElementById("gamesToggleBtn");
   const gamesPanel = document.getElementById("gamesPanel");
 
+  // Si quieres que ESC NO cierre el panel de videojuegos, borra este bloque.
   if (gamesPanel && gamesPanel.classList.contains("is-open")) {
     gamesPanel.classList.remove("is-open");
     gamesPanel.setAttribute("aria-hidden", "true");

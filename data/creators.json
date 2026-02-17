@@ -3,9 +3,22 @@
     "id": 1,
     "username": "arepas_gamer",
     "avatar_url": "assets/avatar-placeholder-1.png",
-    "tags": ["Gaming", "FPS", "Spanish"],
-    "games": ["Valorant", "Counter"],
-    "platforms": ["Twitch", "X", "YouTube", "Instagram", "Email"],
+    "tags": [
+      "Gaming",
+      "FPS",
+      "Spanish"
+    ],
+    "games": [
+      "Valorant",
+      "Counter"
+    ],
+    "platforms": [
+      "Twitch",
+      "X",
+      "YouTube",
+      "Instagram",
+      "Email"
+    ],
     "twitch_id": "arepas_gamer",
     "bio": "Streamer venezolano de FPS y shooters tácticos, energía alta y comunidad chill.",
     "language": "Spanish",
@@ -17,16 +30,28 @@
       "x": "arepas_gamer",
       "youtube": "arepas_gamer",
       "ig": "arepas_gamer",
-      "email": "arepas_gamer@email.com"
+      "email": "arepas_gamer@email.com",
+      "tiktok": ""
     }
   },
   {
     "id": 2,
     "username": "artcaracas",
     "avatar_url": "assets/avatar-placeholder-2.png",
-    "tags": ["Art", "Illustration", "Spanish"],
-    "games": ["Spider"],
-    "platforms": ["Twitch", "Instagram", "X", "Email"],
+    "tags": [
+      "Art",
+      "Illustration",
+      "Spanish"
+    ],
+    "games": [
+      "Spider"
+    ],
+    "platforms": [
+      "Twitch",
+      "Instagram",
+      "X",
+      "Email"
+    ],
     "twitch_id": "artcaracas",
     "bio": "Ilustraciones digitales, fanart y charlas relajadas desde Caracas.",
     "language": "Spanish",
@@ -37,16 +62,28 @@
       "twitch": "artcaracas",
       "ig": "artcaracas",
       "x": "artcaracas",
-      "email": "hola@artcaracas.com"
+      "email": "hola@artcaracas.com",
+      "tiktok": ""
     }
   },
   {
     "id": 3,
     "username": "ven_vtuber",
     "avatar_url": "assets/avatar-placeholder-1.png",
-    "tags": ["VTuber", "Anime", "English"],
-    "games": ["Valorant"],
-    "platforms": ["YouTube", "X", "Instagram", "Email"],
+    "tags": [
+      "VTuber",
+      "Anime",
+      "English"
+    ],
+    "games": [
+      "Valorant"
+    ],
+    "platforms": [
+      "YouTube",
+      "X",
+      "Instagram",
+      "Email"
+    ],
     "twitch_id": "",
     "bio": "VTuber venezolana con streams comfy y juegos indies.",
     "language": "English",
@@ -57,16 +94,26 @@
       "youtube": "ven_vtuber",
       "x": "ven_vtuber",
       "ig": "ven_vtuber",
-      "email": "ven_vtuber@email.com"
+      "email": "ven_vtuber@email.com",
+      "tiktok": ""
     }
   },
   {
     "id": 4,
     "username": "irl_ccs",
     "avatar_url": "assets/avatar-placeholder-2.png",
-    "tags": ["IRL", "Travel", "Spanish"],
+    "tags": [
+      "IRL",
+      "Travel",
+      "Spanish"
+    ],
     "games": [],
-    "platforms": ["Twitch", "Kick", "X", "Email"],
+    "platforms": [
+      "Twitch",
+      "Kick",
+      "X",
+      "Email"
+    ],
     "twitch_id": "irl_ccs",
     "bio": "Recorriendo Venezuela en directo, comida callejera y cultura local.",
     "language": "Spanish",
@@ -77,7 +124,8 @@
       "twitch": "irl_ccs",
       "kick": "irl_ccs",
       "x": "irl_ccs",
-      "email": "contacto@irlccs.com"
+      "email": "contacto@irlccs.com",
+      "tiktok": ""
     }
   }
 ]

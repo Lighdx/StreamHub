@@ -840,11 +840,16 @@ body.header-hidden {
 .rrss-icon.rrss--twitch { width: 14px; height: 14px; }
 .rrss-icon.rrss--x { width: 16px; height: 16px; }
 .rrss-icon.rrss--youtube { width: 16px; height: 16px; }
+.rrss-icon.rrss--tiktok { width: 16px; height: 16px; }
 
 /* Mapeo de archivos */
 .rrss--email {
   -webkit-mask-image: url("../assets/rrss/email.svg");
   mask-image: url("../assets/rrss/email.svg");
+}
+.rrss--tiktok {
+  -webkit-mask-image: url("../assets/rrss/tiktok.svg");
+  mask-image: url("../assets/rrss/tiktok.svg");
 }
 .rrss--ig {
   -webkit-mask-image: url("../assets/rrss/ig.svg");

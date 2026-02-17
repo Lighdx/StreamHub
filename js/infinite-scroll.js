@@ -5,6 +5,19 @@
   const SORT_BTN = document.getElementById("sortAlphaBtn");
   const BATCH_SIZE = 20;
 
+  // Orden fijo requerido:
+  // 1. Twitch 2. Kick 3. Twitter(X) 4. Instagram 5. TikTok 6. YouTube 7. Email
+  const PLATFORM_ORDER = ["twitch", "kick", "x", "ig", "tiktok", "youtube", "email"];
+  const PLATFORM_LABEL = {
+    twitch: "Twitch",
+    kick: "Kick",
+    x: "Twitter",
+    ig: "Instagram",
+    tiktok: "TikTok",
+    youtube: "YouTube",
+    email: "Email",
+  };
+
   let allCreators = [];
   let filteredCreators = [];
   let renderedCount = 0;
@@ -38,6 +51,7 @@
     if (p === "youtube" || p === "you tube") return "youtube";
     if (p === "x" || p === "twitter") return "x";
     if (p === "instagram" || p === "ig") return "ig";
+    if (p === "tiktok" || p === "tik tok" || p === "tt") return "tiktok";
     if (p === "email" || p === "mail" || p === "correo") return "email";
 
     return null;
@@ -61,6 +75,7 @@
     if (key === "kick") return `https://kick.com/${encodeURIComponent(handle)}`;
     if (key === "x") return `https://x.com/${encodeURIComponent(handle)}`;
     if (key === "ig") return `https://instagram.com/${encodeURIComponent(handle)}`;
+    if (key === "tiktok") return `https://tiktok.com/@${encodeURIComponent(handle)}`;
     if (key === "youtube") return `https://youtube.com/@${encodeURIComponent(handle)}`;
     if (key === "email") return `mailto:${handle}`;
 
@@ -68,8 +83,14 @@
   }
 
   function getCreatorLink(creator, key) {
-    if (creator && creator.links && creator.links[key]) {
-      return buildUrlFromHandle(key, creator.links[key]);
+    if (creator && creator.links) {
+      // Key directa
+      if (creator.links[key]) return buildUrlFromHandle(key, creator.links[key]);
+
+      // Aliases opcionales
+      if (key === "x" && creator.links.twitter) return buildUrlFromHandle("x", creator.links.twitter);
+      if (key === "ig" && creator.links.instagram) return buildUrlFromHandle("ig", creator.links.instagram);
+      if (key === "tiktok" && creator.links.tt) return buildUrlFromHandle("tiktok", creator.links.tt);
     }
 
     // fallback compat: twitch_id / username
@@ -82,10 +103,7 @@
     return null;
   }
 
-  function createPlatformIcon(creator, platform) {
-    const key = normalizePlatformKey(platform);
-    if (!key) return null;
-
+  function createPlatformIconByKey(creator, key) {
     const url = getCreatorLink(creator, key);
     if (!url) return null;
 
@@ -94,8 +112,8 @@
     a.href = url;
     a.target = "_blank";
     a.rel = "noopener noreferrer";
-    a.title = platform;
-    a.setAttribute("aria-label", platform);
+    a.title = PLATFORM_LABEL[key] || key;
+    a.setAttribute("aria-label", PLATFORM_LABEL[key] || key);
 
     // Que el click en el icono NO abra modal ni active otras cosas
     a.addEventListener("click", (e) => e.stopPropagation());
@@ -107,6 +125,14 @@
     a.appendChild(icon);
     return a;
   }
+
+  // (Opcional) Export para que el popup use el mismo orden/constructor sin duplicar lógica
+  window.VSDPlatformIcons = {
+    ORDER: PLATFORM_ORDER.slice(),
+    create: createPlatformIconByKey,
+    normalizeKey: normalizePlatformKey,
+    getLink: getCreatorLink,
+  };
 
   function usernameKey(c) {
     return String(c && c.username ? c.username : "").toLowerCase();
@@ -195,8 +221,9 @@
     const platformsRow = document.createElement("div");
     platformsRow.className = "creator-platforms";
 
-    (creator.platforms || []).forEach(p => {
-      const el = createPlatformIcon(creator, p);
+    // Orden fijo + no dibujar si no hay link
+    PLATFORM_ORDER.forEach(key => {
+      const el = createPlatformIconByKey(creator, key);
       if (el) platformsRow.appendChild(el);
     });
 

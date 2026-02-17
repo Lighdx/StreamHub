@@ -334,7 +334,7 @@ body {
   display: grid;
   grid-template-columns: 1fr;
   gap: 18px;
-  margin-top: 130px; /* compensa header+filtros fijos */
+  /*margin-top: 130px;  compensa header+filtros fijos */
 }
 
 /* BREAKPOINTS */
@@ -774,9 +774,9 @@ body {
     align-items: stretch;
   }
 
-  .creators-grid {
+/*  .creators-grid {
     margin-top: 150px;
-  }
+  }*/
 
   .modal-dialog {
     padding: 10px;
@@ -946,4 +946,31 @@ body {
   .app-content{
     transition: none !important;
   }
+}
+
+:root{
+  --safe-top: env(safe-area-inset-top, 0px);
+  --site-header-h: 76px; /* fallback */
+  --filters-h: 64px;     /* fallback */
+}
+
+/* Header igual, pero con safe-area */
+.site-header{
+  top: 0;
+  padding-top: calc(20px + var(--safe-top));
+}
+
+/* Barra filtros siempre debajo del header real */
+.filters-section{
+  top: calc(var(--site-header-h));
+}
+
+/* Empuja el contenido bajo header+filtros (para que nada quede detrás) */
+.site-main{
+  padding-top: calc(var(--site-header-h) + var(--filters-h) + 12px);
+}
+
+/* Ya no necesitas el “hack” de margin-top en el grid */
+.creators-grid{
+  margin-top: 0 !important;
 }

@@ -27,7 +27,6 @@ Sitio web estático para que fuinciona com odirectorio de creadores/streamers en
 
 ---
 
-
 ### Estructura de creadores
 ```json
 {
@@ -50,6 +49,8 @@ Sitio web estático para que fuinciona com odirectorio de creadores/streamers en
     "email": "correo@dominio.com"
   }
 }
+```
+---
 
 ### Conocimientos y herramientas necesarias
 

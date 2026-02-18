@@ -95,6 +95,18 @@
     return a;
   }
 
+  // ✅ Método robusto para abrir nueva pestaña (especialmente en móvil)
+  function openInNewTab(url) {
+    if (!url) return;
+    const a = document.createElement("a");
+    a.href = url;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+
   function initModal() {
     const backdrop = document.getElementById("profileModal");
     const blurOverlay = document.getElementById("appBlurOverlay");
@@ -128,6 +140,27 @@
       return v != null && String(v).trim().length > 0;
     }
 
+    function setTwitchCtaState(url) {
+      if (!twitchBtn) return;
+
+      // Si es un <button>, asegura que no dispare submits accidentales
+      if (twitchBtn.tagName === "BUTTON") twitchBtn.type = "button";
+
+      if (url) {
+        twitchBtn.dataset.twitchUrl = url;
+        twitchBtn.disabled = false;
+        twitchBtn.style.opacity = "";
+        twitchBtn.style.cursor = "";
+        twitchBtn.setAttribute("aria-disabled", "false");
+      } else {
+        twitchBtn.dataset.twitchUrl = "";
+        twitchBtn.disabled = true;
+        twitchBtn.style.opacity = "0.6";
+        twitchBtn.style.cursor = "not-allowed";
+        twitchBtn.setAttribute("aria-disabled", "true");
+      }
+    }
+
     function close(opts) {
       const fromPopstate = opts && opts.fromPopstate;
 
@@ -157,13 +190,13 @@
       avatar.alt = `Avatar de ${creator.username}`;
       usernameEl.textContent = `@${creator.username}`;
 
-      // ✅ BIO: si no hay bio, se oculta el bloque (sin placeholder)
+      // BIO: si no hay bio, se oculta el elemento completo (sin placeholder)
       if (hasText(creator.bio)) {
         bioEl.textContent = creator.bio;
         setDisplay(bioEl, true);
       } else {
         bioEl.textContent = "";
-        setDisplay(bioEl, false); // display:none lo saca del layout [web:836]
+        setDisplay(bioEl, false);
       }
 
       tagsContainer.innerHTML = "";
@@ -182,9 +215,9 @@
         gamesContainer.appendChild(span);
       });
 
-      // ✅ FOLLOWERS: si no hay followers, se oculta el bloque completo “Seguidores Twitch —”
+      // FOLLOWERS: si no hay followers, oculta el bloque completo
       const followersBlock =
-        followersEl && (followersEl.closest(".twitch-stat") || followersEl.parentElement); // closest() busca el ancestro más cercano [web:829]
+        followersEl && (followersEl.closest(".twitch-stat") || followersEl.parentElement);
 
       if (followersEl && hasText(creator.followers)) {
         followersEl.textContent = creator.followers;
@@ -197,9 +230,8 @@
       residenceEl.textContent = creator.residence || "Desconocido";
       nationalityEl.textContent = creator.nationality || "Sin datos";
 
-      // ✅ Redes en orden fijo, basadas en creator.socials
+      // Redes en orden fijo
       platformsContainer.innerHTML = "";
-
       const order =
         (window.VSDPlatformIcons && Array.isArray(window.VSDPlatformIcons.ORDER))
           ? window.VSDPlatformIcons.ORDER
@@ -210,19 +242,9 @@
         if (el) platformsContainer.appendChild(el);
       });
 
-      // Botón Twitch: ahora sale desde socials (o fallback compat)
+      // ✅ CTA Twitch: usa EXACTAMENTE el mismo generador de link que el icono
       const twitchUrl = getCreatorLink(creator, "twitch");
-      if (twitchUrl) {
-        twitchBtn.dataset.twitchUrl = twitchUrl;
-        twitchBtn.disabled = false;
-        twitchBtn.style.opacity = "";
-        twitchBtn.style.cursor = "";
-      } else {
-        twitchBtn.dataset.twitchUrl = "";
-        twitchBtn.disabled = true;
-        twitchBtn.style.opacity = "0.6";
-        twitchBtn.style.cursor = "not-allowed";
-      }
+      setTwitchCtaState(twitchUrl);
 
       backdrop.setAttribute("aria-hidden", "false");
       backdrop.classList.add("is-visible");
@@ -232,7 +254,7 @@
       if (closeBtn) closeBtn.focus();
     }
 
-    // Si el usuario hace “atrás” (botón o gesto), cerramos el modal.
+    // Atrás (gesto/botón): cerrar modal
     window.addEventListener("popstate", function () {
       const isOpen = backdrop.classList.contains("is-visible");
       if (!isOpen) return;
@@ -253,11 +275,21 @@
       if (evt.key === "Escape") close();
     });
 
-    twitchBtn.addEventListener("click", function () {
-      const url = twitchBtn.dataset.twitchUrl;
-      if (!url) return;
-      window.open(url, "_blank", "noopener");
-    });
+    // ✅ Botón grande Twitch: abre en nueva pestaña, mismo URL que el icono
+    if (twitchBtn) {
+      twitchBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        // Si está disabled, no hacemos nada
+        if (twitchBtn.disabled) return;
+
+        // No dependemos del dataset: recalculamos desde currentCreator para que sea 1:1 con el icono
+        const url = currentCreator ? getCreatorLink(currentCreator, "twitch") : "";
+        if (!url) return;
+
+        openInNewTab(url);
+      });
+    }
 
     window.VSDModal = { open, close };
   }

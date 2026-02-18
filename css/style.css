@@ -1141,3 +1141,54 @@ body.header-hidden {
   box-shadow: 0 16px 40px rgba(15, 23, 42, 0.65);
   color: var(--accent-main);
 }
+
+/* Footer */
+.footer-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+  background: transparent;
+}
+
+.footer-table {
+  padding-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  max-width: 350px;
+}
+
+/* Link */
+.footer-logo-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: white; /* o tu variable de iconos, ej: var(--text-subtle) */
+}
+
+/* Logo “pintable” (usa KM.svg como máscara) */
+.footer-logo {
+  width: min(260px, 80vw);
+  height: 48px;               /* ajusta si queda muy alto/bajo */
+  background-color: currentColor;
+  opacity: 0.9;
+
+  -webkit-mask-image: url("assets/KM.svg");
+  mask-image: url("assets/KM.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+/* Texto footer de acreditación (igual que antes) */
+.attribution {
+  text-align: center;
+  font-size: 0.55rem;
+  color: white;
+  padding-bottom: 60px;
+}

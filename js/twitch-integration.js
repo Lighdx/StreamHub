@@ -310,11 +310,11 @@
       .twitch-live-badge {
         display: inline-flex;
         align-items: center;
-        gap: 8px;
+        gap: 6px;
         background: linear-gradient(135deg, #ff0000, #cc0000);
         color: white;
 
-        padding: 6px 16px;
+        padding: 5px 10px;
         border-radius: 10px;
         font-size: 0.82rem;
         font-weight: 600;
@@ -324,7 +324,7 @@
         border: 1px solid rgba(255,255,255,0.25);
         text-transform: uppercase;
         letter-spacing: 0.4px;
-        margin: 0 auto;
+        margin: 5px 0px;
       }
 
       .twitch-live-badge .live-dot {

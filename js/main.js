@@ -293,6 +293,7 @@
 
     window.VSDModal = { open, close };
   }
+
   document.addEventListener("DOMContentLoaded", function () {
       initModal();
 

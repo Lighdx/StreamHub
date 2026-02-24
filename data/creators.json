@@ -2459,7 +2459,7 @@
     "email": "fake.scottmusic@gmail.com",
     "residence": "Brasil",
     "nationality": "Venezuela",
-    "streamplatform": "Twitch"
+    "streamplatform": "twitch"
   },
   {
     "id": 94,
@@ -2475,7 +2475,7 @@
     "email": "",
     "residence": "Estados Unidos",
     "nationality": "Venezuela",
-    "streamplatform": "Tiktok"
+    "streamplatform": "tiktok"
   },
   {
     "id": 95,
@@ -2491,7 +2491,7 @@
     "email": "nateewsan@gmail.com",
     "residence": "Maracaibo, Venezuela",
     "nationality": "Venezuela",
-    "streamplatform": "Twitch"
+    "streamplatform": "twitch"
   },
   {
     "id": 96,
@@ -2507,7 +2507,7 @@
     "email": "nandatayojuegos@gmail.com",
     "residence": "Venezuela",
     "nationality": "Venezuela",
-    "streamplatform": "Twitch"
+    "streamplatform": "twitch"
   },
   {
     "id": 97,
@@ -2523,7 +2523,7 @@
     "email": "Javiermilicia@gmail.com",
     "residence": "Estados Unidos",
     "nationality": "Venezuela",
-    "streamplatform": "Twitch"
+    "streamplatform": "twitch"
   },
   {
     "id": 98,
@@ -2539,6 +2539,6 @@
     "email": "Valentinacastillowork@gmail.com",
     "residence": "Lisboa, Portugal",
     "nationality": "Venezuela",
-    "streamplatform": "Twitch"
+    "streamplatform": "twitch"
   }
 ]

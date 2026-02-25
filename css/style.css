@@ -1194,23 +1194,36 @@ body.header-hidden .filters-section{
 }
 
 .footer-logo {
-  width: min(260px, 80vw);
+  max-width: min(260px, 80vw);
   height: 40px;
+  width: auto;
   display: block;
   background-color: transparent;
   opacity: 0.9;
-  -webkit-mask: url("/assets/kuum.svg") center / contain no-repeat;
-  mask: url("/assets/kuum.svg") center / contain no-repeat;
-}
 
-@supports (mask: url("") center / contain no-repeat) or (-webkit-mask: url("") center / contain no-repeat) {
-  .footer-logo {
-    background-color: currentColor;
-  }
+  /* Pulso rojo (glow) sin “pintar” el PNG */
+  filter: drop-shadow(0 0 0 rgba(255, 0, 0, 0));
+  will-change: filter;
 }
 
 .footer-logo-link:hover {
   color: var(--accent-main);
+}
+
+/* Footer logo: pulso rojo para incentivar click */
+@keyframes footerLogoPulse {
+  0%, 100% { filter: drop-shadow(0 0 0 rgba(255, 0, 0, 0)); }
+  50%      { filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.9)); } /* rojo "en vivo" */
+}
+
+.footer-logo {
+  animation: footerLogoPulse 1.6s ease-in-out infinite;
+}
+
+/* Opcional: cuando pasas el mouse, detén el pulso y deja rojo fijo */
+.footer-logo-link:hover .footer-logo {
+  animation: none;
+  filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.9));
 }
 
 .attribution {
@@ -1400,22 +1413,6 @@ body.header-hidden .filters-section{
 /* (Opcional) si quieres que los títulos sigan centrados pero el texto no: */
 #creditsModal .modal-username{
   text-align: center;
-}
-
-/* Footer logo: pulso rojo para incentivar click */
-@keyframes footerLogoPulse {
-  0%, 100% { color: var(--text-subtle); }
-  50%      { color: #ff0000; } /* rojo "en vivo" */
-}
-
-.footer-logo-link{
-  animation: footerLogoPulse 1.6s ease-in-out infinite;
-}
-
-/* Opcional: cuando pasas el mouse, detén el pulso y deja rojo fijo */
-.footer-logo-link:hover{
-  animation: none;
-  color: #ff0000;
 }
 
 /* Accesibilidad: si el usuario prefiere menos movimiento, no pulses */

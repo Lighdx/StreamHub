@@ -2570,5 +2570,672 @@
     "tiktok": "Tinaconejita",
     "email": "Valentinacastillowork@gmail.com"
   }
-}
+},
+  {
+    "id": 99,
+    "username": "Scark24",
+    "streamPlatform": "twitch",
+    "avatar_url": "assets/avatars/Scark24.webp",
+    "tags": [
+      "Just Chatting",
+      "Música",
+      "Anime",
+      "Calmado",
+      "Jugador competitivo/Tryhard",
+      "Jugador casual"
+    ],
+    "games": [
+      "Counter-Strike",
+      "Valorant",
+      "Roblox",
+      "Fortnite",
+      "Minecraft"
+    ],
+    "bio": "",
+    "followers": "",
+    "residence": "Costa Rica",
+    "nationality": "Venezuela",
+    "socials": {
+      "twitch": "Scark24",
+      "kick": "",
+      "ig": "Scark24",
+      "x": "Scark24",
+      "youtube": "Scark.xu",
+      "tiktok": "scark24",
+      "email": "Luisjavier.sefe@gmail.com"
+    }
+  },
+  {
+    "id": 100,
+    "username": "Ouroflamel",
+    "streamPlatform": "twitch",
+    "avatar_url": "assets/avatars/Ouroflamel.webp",
+    "tags": [
+      "Just Chatting",
+      "Anime",
+      "Jugador casual",
+      "Juegos largos"
+    ],
+    "games": [
+      "Valorant",
+      "Roblox",
+      "Fortnite",
+      "Marvel Rivals",
+      "Minecraft",
+      "Variedad"
+    ],
+    "bio": "",
+    "followers": "",
+    "residence": "Perú",
+    "nationality": "Perú",
+    "socials": {
+      "twitch": "Ouroflamel",
+      "kick": "Ouroflamel",
+      "ig": "ouroflamel",
+      "x": "Ouroflamel",
+      "youtube": "ouroflamel",
+      "tiktok": "ouroflamel",
+      "email": "jercabanillasm1607@gmail.com"
+    }
+  },
+  {
+    "id": 101,
+    "username": "Johanlyz",
+    "streamPlatform": "twitch",
+    "avatar_url": "assets/avatars/Johanlyz.webp",
+    "tags": [
+      "Alta interacción con el chat",
+      "Humor",
+      "Just Chatting",
+      "Juegos de Historia",
+      "Jugador casual",
+      "Juegos cortos",
+      "Juegos largos",
+      "Música",
+      "Manualidades"
+    ],
+    "games": [
+      "Juegos indie",
+      "Juegos de terror",
+      "Minecraft",
+      "Multiplayer",
+      "Variedad",
+      "Mario Kart"
+    ],
+    "bio": "",
+    "followers": "",
+    "residence": "Caracas, Venezuela",
+    "nationality": "Venezuela",
+    "socials": {
+      "twitch": "Johanlyz",
+      "kick": "",
+      "ig": "Johanlyz_",
+      "x": "Johanlyz",
+      "youtube": "",
+      "tiktok": "Johanlyz",
+      "email": "Johanlyznunez@gmail.com"
+    }
+  },
+  {
+    "id": 102,
+    "username": "Toyekoo0_0",
+    "streamPlatform": "youtube",
+    "avatar_url": "assets/avatars/Toyekoo0_0.webp",
+    "tags": [
+      "Deportes",
+      "Humor",
+      "Just Chatting",
+      "Juegos de Rol",
+      "Juegos de Historia",
+      "Eventos especiales",
+      "Jugador competitivo/Tryhard",
+      "Jugador casual",
+      "Juegos cortos",
+      "Juegos largos",
+      "Muy animado"
+    ],
+    "games": [
+      "Fortnite",
+      "Minecraft",
+      "Roblox"
+    ],
+    "bio": "",
+    "followers": "",
+    "residence": "",
+    "nationality": "Venezuela",
+    "socials": {
+      "twitch": "Toyekoo0_0",
+      "kick": "",
+      "ig": "eltonekoo",
+      "x": "tonekoo_o",
+      "youtube": "",
+      "tiktok": "Toñekooyt",
+      "email": "tonyvipexx.07438@gmail.com"
+    }
+  },
+  {
+    "id": 103,
+    "username": "DKZorlaOG",
+    "streamPlatform": "youtube",
+    "avatar_url": "assets/avatars/DKZorlaOG.webp",
+    "tags": [
+      "Alta interacción con el chat",
+      "Calmado",
+      "Challenges",
+      "Just Chatting",
+      "Juegos de Rol",
+      "Juegos de Historia",
+      "Jugador competitivo/Tryhard",
+      "Jugador casual",
+      "Juegos cortos",
+      "Juegos largos",
+      "Muy animado"
+    ],
+    "games": [
+      "Juegos indie",
+      "Juegos de terror",
+      "JRPG",
+      "Marvel Rivals",
+      "Multiplayer",
+      "Survival Horror",
+      "Soulslike",
+      "Variedad",
+      "ARC Raiders"
+    ],
+    "bio": "",
+    "followers": "",
+    "residence": "Caracas, Venezuela",
+    "nationality": "Venezuela",
+    "socials": {
+      "twitch": "DKZorlaOG",
+      "kick": "DKZorla",
+      "ig": "DKZorla",
+      "x": "DKZorla",
+      "youtube": "DKZorla",
+      "tiktok": "DKZorla",
+      "email": "ldkzorla@gmail.com"
+    }
+  },
+  {
+    "id": 104,
+    "username": "Taitaimochi",
+    "streamPlatform": "twitch",
+    "avatar_url": "assets/avatars/Taitaimochi.webp",
+    "tags": [
+      "Anime",
+      "Alta interacción con el chat",
+      "Humor",
+      "Just Chatting",
+      "Juegos de Historia",
+      "Jugador casual",
+      "Juegos cortos",
+      "Juegos largos",
+      "Muy animado",
+      "Vtuber",
+      "Watchpartys"
+    ],
+    "games": [
+      "Juegos indie",
+      "Multiplayer",
+      "Survival Horror",
+      "Soulslike",
+      "Variedad",
+      "Valorant"
+    ],
+    "bio": "",
+    "followers": "",
+    "residence": "Venezuela",
+    "nationality": "Venezuela",
+    "socials": {
+      "twitch": "Taitaimochi",
+      "kick": "",
+      "ig": "Taitaimochi",
+      "x": "Taitaimochii",
+      "youtube": "Taitaimochi",
+      "tiktok": "Taitaimochi",
+      "email": "Ciegamochi@gmail.com"
+    }
+  },
+  {
+    "id": 105,
+    "username": "Lurini02",
+    "streamPlatform": "twitch",
+    "avatar_url": "assets/avatars/Lurini02.webp",
+    "tags": [
+      "ASMR",
+      "Calmado",
+      "Just Chatting",
+      "Juegos de Historia",
+      "Jugador casual",
+      "Juegos cortos",
+      "Juegos largos",
+      "Vtuber"
+    ],
+    "games": [
+      "Juegos indie",
+      "Juegos de terror",
+      "Minecraft",
+      "Roblox",
+      "TFT",
+      "Visual Novel"
+    ],
+    "bio": "",
+    "followers": "",
+    "residence": "Venezuela",
+    "nationality": "Venezuela",
+    "socials": {
+      "twitch": "Lurini02",
+      "kick": "Lurini",
+      "ig": "",
+      "x": "madameroxo",
+      "youtube": "Lurini-02",
+      "tiktok": "madameroxo",
+      "email": "lurini2332@gmail.com"
+    }
+  },
+  {
+    "id": 106,
+    "username": "frescot_",
+    "streamPlatform": "twitch",
+    "avatar_url": "assets/avatars/frescot_.webp",
+    "tags": [],
+    "games": [
+      "Counter-Strike",
+      "S.T.A.L.K.E.R.",
+      "SCUM",
+      "HumanitZ",
+      "Grayzone Warfare",
+      "Incursion Red River",
+      "Arma Reforger",
+      "Half-Life"
+    ],
+    "bio": "",
+    "followers": "",
+    "residence": "Venezuela",
+    "nationality": "Venezuela",
+    "socials": {
+      "twitch": "frescot_",
+      "kick": "",
+      "ig": "Fresco Turbina",
+      "x": "FrescoT",
+      "youtube": "FrescoT, FrescoT2",
+      "tiktok": "FrescoT",
+      "email": ""
+    }
+  },
+  {
+    "id": 107,
+    "username": "rotjez",
+    "streamPlatform": "twitch",
+    "avatar_url": "assets/avatars/rotjez.webp",
+    "tags": [
+      "Alta interacción con el chat",
+      "Humor",
+      "Just Chatting",
+      "Juegos de Rol",
+      "Juegos de Historia",
+      "Jugador casual",
+      "Juegos cortos",
+      "Juegos largos",
+      "Muy animado"
+    ],
+    "games": [
+      "Juegos indie",
+      "Juegos de terror",
+      "Roblox",
+      "Variedad"
+    ],
+    "bio": "",
+    "followers": "",
+    "residence": "Caracas, Venezuela",
+    "nationality": "Venezuela",
+    "socials": {
+      "twitch": "rotjez",
+      "kick": "",
+      "ig": "rotjeztwitch",
+      "x": "",
+      "youtube": "rotjez",
+      "tiktok": "rotjeztwitch",
+      "email": "arrobarotjez@gmail.com"
+    }
+  },
+  {
+    "id": 108,
+    "username": "SoyVeryCherrii",
+    "streamPlatform": "twitch",
+    "avatar_url": "assets/avatars/SoyVeryCherrii.webp",
+    "tags": [
+      "Arte",
+      "Alta interacción con el chat",
+      "Just Chatting",
+      "Eventos especiales",
+      "Música",
+      "Vtuber"
+    ],
+    "games": [],
+    "bio": "",
+    "followers": "",
+    "residence": "",
+    "nationality": "Venezuela",
+    "socials": {
+      "twitch": "SoyVeryCherrii",
+      "kick": "",
+      "ig": "SoyVeryCherrii",
+      "x": "VeryCherrii",
+      "youtube": "VeryCherrii",
+      "tiktok": "SoyVeryCherrii",
+      "email": "VeryCherriiBusiness@Gmail.com"
+    }
+  },
+  {
+    "id": 109,
+    "username": "ArcemioticoLIVE",
+    "streamPlatform": "youtube",
+    "avatar_url": "assets/avatars/ArcemioticoLIVE.webp",
+    "tags": [
+      "Juegos largos"
+    ],
+    "games": [
+      "Pokémon"
+    ],
+    "bio": "",
+    "followers": "",
+    "residence": "Venezuela",
+    "nationality": "Venezuela",
+    "socials": {
+      "twitch": "ArcemioticoLIVE",
+      "kick": "",
+      "ig": "arcemiotico",
+      "x": "arcemiotico",
+      "youtube": "ArcemioticoLIVE",
+      "tiktok": "arcemiotico",
+      "email": "arcemioticovisual@gmail.com"
+    }
+  },
+  {
+    "id": 110,
+    "username": "elozzzl",
+    "streamPlatform": "tiktok",
+    "avatar_url": "assets/avatars/elozzzl.webp",
+    "tags": [
+      "Just Chatting",
+      "Juegos de Rol",
+      "Juegos de Historia",
+      "Juegos cortos",
+      "Juegos largos",
+      "Lectura"
+    ],
+    "games": [
+      "Juegos indie",
+      "Juegos de terror",
+      "Multiplayer",
+      "Roblox"
+    ],
+    "bio": "",
+    "followers": "",
+    "residence": "Venezuela",
+    "nationality": "Venezuela",
+    "socials": {
+      "twitch": "elozzzl",
+      "kick": "",
+      "ig": "",
+      "x": "",
+      "youtube": "Eloz",
+      "tiktok": "elozgaming_",
+      "email": "elozcontacto@gmail.com"
+    }
+  },
+  {
+    "id": 111,
+    "username": "ttvmichii",
+    "streamPlatform": "kick",
+    "avatar_url": "assets/avatars/ttvmichii.webp",
+    "tags": [
+      "Alta interacción con el chat",
+      "IRL",
+      "Just Chatting",
+      "Jugador competitivo/Tryhard",
+      "Juegos cortos",
+      "Roleplayer"
+    ],
+    "games": [
+      "Call of Duty",
+      "Fortnite",
+      "GTA V",
+      "Juegos de terror",
+      "Minecraft",
+      "Multiplayer"
+    ],
+    "bio": "",
+    "followers": "",
+    "residence": "Maracaibo, Venezuela",
+    "nationality": "Venezuela",
+    "socials": {
+      "twitch": "",
+      "kick": "ttvmichii",
+      "ig": "ttvmichii",
+      "x": "ttvmichii",
+      "youtube": "ttvmichii",
+      "tiktok": "ttvmichii",
+      "email": "ttvmichii@gmail.com"
+    }
+  },
+  {
+    "id": 112,
+    "username": "PequeTano",
+    "streamPlatform": "twitch",
+    "avatar_url": "assets/avatars/PequeTano.webp",
+    "tags": [
+      "Anime",
+      "Alta interacción con el chat",
+      "Humor",
+      "IRL",
+      "Just Chatting",
+      "Juegos de Rol",
+      "Juegos de Historia",
+      "Jugador casual",
+      "Juegos cortos",
+      "Juegos largos",
+      "Música",
+      "Muy animado",
+      "Roleplayer"
+    ],
+    "games": [
+      "Juegos indie",
+      "Juegos de terror",
+      "Juegos de carrera",
+      "Minecraft",
+      "Multiplayer",
+      "Roblox",
+      "Variedad"
+    ],
+    "bio": "",
+    "followers": "",
+    "residence": "Cagua, Venezuela",
+    "nationality": "Venezuela",
+    "socials": {
+      "twitch": "PequeTano",
+      "kick": "",
+      "ig": "PequeTano",
+      "x": "",
+      "youtube": "PequeTano",
+      "tiktok": "PequeTano",
+      "email": "tanoficina@gmail.com"
+    }
+  },
+  {
+    "id": 113,
+    "username": "Luisanarojas_01",
+    "streamPlatform": "kick",
+    "avatar_url": "assets/avatars/Luisanarojas_01.webp",
+    "tags": [
+      "Alta interacción con el chat",
+      "IRL",
+      "Just Chatting",
+      "Roleplayer"
+    ],
+    "games": [
+      "GTA V",
+      "Juegos de terror",
+      "Roblox"
+    ],
+    "bio": "",
+    "followers": "",
+    "residence": "España",
+    "nationality": "Venezuela",
+    "socials": {
+      "twitch": "",
+      "kick": "Luisanarojas_01",
+      "ig": "Luisanarojas01_",
+      "x": "",
+      "youtube": "",
+      "tiktok": "Luisanarojas_01",
+      "email": "rojasluisana1594@gmail.com"
+    }
+  },
+  {
+    "id": 114,
+    "username": "izzycrue",
+    "streamPlatform": "kick",
+    "avatar_url": "assets/avatars/izzycrue.webp",
+    "tags": [
+      "Alta interacción con el chat",
+      "Humor",
+      "IRL",
+      "Just Chatting",
+      "Juegos de Historia",
+      "Jugador competitivo/Tryhard",
+      "Juegos largos"
+    ],
+    "games": [
+      "Counter-Strike",
+      "Call of Duty",
+      "Fortnite",
+      "GTA V",
+      "Juegos de terror",
+      "Roblox"
+    ],
+    "bio": "",
+    "followers": "",
+    "residence": "Caracas, Venezuela",
+    "nationality": "Venezuela",
+    "socials": {
+      "twitch": "izzycrue",
+      "kick": "yoizzy",
+      "ig": "yoisraaa",
+      "x": "izzyqn",
+      "youtube": "izzykick",
+      "tiktok": "izzykick",
+      "email": "yoisraa.bussines@gmail.com"
+    }
+  },
+  {
+    "id": 115,
+    "username": "arianeeena",
+    "streamPlatform": "kick",
+    "avatar_url": "assets/avatars/arianeeena.webp",
+    "tags": [
+      "Alta interacción con el chat",
+      "Humor",
+      "Just Chatting",
+      "Juegos de Rol",
+      "Jugador casual",
+      "Juegos largos",
+      "Música",
+      "Roleplayer"
+    ],
+    "games": [
+      "Call of Duty",
+      "GTA V",
+      "Multiplayer",
+      "Variedad",
+      "Juegos de historia"
+    ],
+    "bio": "",
+    "followers": "",
+    "residence": "Caracas, Venezuela",
+    "nationality": "Venezuela",
+    "socials": {
+      "twitch": "arianeeena",
+      "kick": "ArianeeeNa",
+      "ig": "arianeeena",
+      "x": "arianeeena",
+      "youtube": "arianeeena",
+      "tiktok": "arianeeena",
+      "email": "Na.arianena@gmail.com"
+    }
+  },
+  {
+    "id": 116,
+    "username": "gabrielot_",
+    "streamPlatform": "kick",
+    "avatar_url": "assets/avatars/gabrielot_.webp",
+    "tags": [
+      "Humor",
+      "Just Chatting",
+      "Juegos de Rol",
+      "Juegos de Historia",
+      "Jugador casual",
+      "Juegos cortos",
+      "Juegos largos",
+      "Roleplayer"
+    ],
+    "games": [
+      "Call of Duty",
+      "Juegos indie",
+      "Juegos de terror",
+      "JRPG",
+      "Minecraft",
+      "Roblox",
+      "Survival Horror",
+      "Variedad",
+      "Dota 2"
+    ],
+    "bio": "",
+    "followers": "",
+    "residence": "Colombia",
+    "nationality": "Venezuela",
+    "socials": {
+      "twitch": "gabrielot_",
+      "kick": "gaboBMZ",
+      "ig": "itsgabrielot",
+      "x": "GabrieloTende",
+      "youtube": "gabrielotendencia.2575",
+      "tiktok": "gabrieloclips",
+      "email": ""
+    }
+  },
+  {
+    "id": 117,
+    "username": "EddyTaku",
+    "streamPlatform": "youtube",
+    "avatar_url": "assets/avatars/EddyTaku.webp",
+    "tags": [
+      "Alta interacción con el chat",
+      "Humor",
+      "Just Chatting",
+      "Jugador competitivo/Tryhard",
+      "Juegos cortos",
+      "Juegos largos"
+    ],
+    "games": [
+      "Minecraft",
+      "Pokémon",
+      "Roblox",
+      "Five Nights at Freddy's"
+    ],
+    "bio": "",
+    "followers": "",
+    "residence": "Maracaibo, Venezuela",
+    "nationality": "Venezuela",
+    "socials": {
+      "twitch": "EddyTaku",
+      "kick": "",
+      "ig": "Eddytaku_",
+      "x": "Eddytaku_",
+      "youtube": "Eddytakuu",
+      "tiktok": "Eddytaku_",
+      "email": "ccontactoeddy@gmail.com"
+    }
+  }
 ]

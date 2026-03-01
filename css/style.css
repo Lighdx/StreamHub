@@ -1193,6 +1193,10 @@ body.header-hidden .filters-section{
   text-decoration: none;
 }
 
+.footer-logo-link:hover {
+  color: var(--accent-main);
+}
+
 .footer-logo {
   width: min(260px, 80vw);
   height: 40px;
@@ -1200,20 +1204,21 @@ body.header-hidden .filters-section{
   background-color: transparent;
   opacity: 0.9;
 
-  /* PNG real (sin mask, sin “pintar” con CSS) */
   background-image: url("/assets/masinfo.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
 
-  /* Pulso rojo como glow */
+  /* Glow (si lo quieres, déjalo; si no, puedes borrar estas 2 líneas) */
   filter: drop-shadow(0 0 0 rgba(255, 0, 0, 0));
   will-change: filter;
 }
 
-.footer-logo-link:hover {
-  color: var(--accent-main);
+/* Tema night */
+[data-theme="night"] .footer-logo {
+  background-image: url("/assets/masinfow.png");
 }
+
 
 /* Footer logo: pulso rojo para incentivar click */
 @keyframes footerLogoPulse {

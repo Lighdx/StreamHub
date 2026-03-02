@@ -8,15 +8,18 @@
   function open() {
     modal.classList.add("is-visible");
     modal.setAttribute("aria-hidden", "false");
-    document.body.classList.add("modal-open"); // opcional si luego quieres blur al fondo
+    document.body.classList.add("modal-open");
     closeBtn.focus();
   }
 
   function close() {
+    // Si el foco está dentro, sácalo antes de ocultar
+    const active = document.activeElement;
+    if (active && modal.contains(active)) openBtn.focus();
+
     modal.classList.remove("is-visible");
     modal.setAttribute("aria-hidden", "true");
     document.body.classList.remove("modal-open");
-    openBtn.focus();
   }
 
   openBtn.addEventListener("click", (e) => {
@@ -27,7 +30,6 @@
   closeBtn.addEventListener("click", close);
 
   modal.addEventListener("click", (e) => {
-    // click en el backdrop cierra
     if (e.target === modal) close();
   });
 

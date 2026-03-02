@@ -1845,6 +1845,10 @@ body.header-hidden .filters-section{
     font-size: 1rem;
     padding: 7px 10px
   }
+
+  .filters-section{
+    display: none !important;
+  }
 }
 
 .mobile-nav__plus {
@@ -1919,4 +1923,50 @@ body.header-hidden .filters-section{
   font-weight: 700;
   line-height: 1;
   transform: translateY(-1px);
+}
+
+/* Mobile: modales con alto máximo real y scroll interno */
+@media (max-width: 899px) {
+  /* Asegura que el backdrop pueda contener y centrar sin cortar */
+  .modal-backdrop {
+    padding: 12px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-dialog {
+    width: min(92vw, 520px);
+
+    /* Fallback (viejo): vh */
+    max-height: 78vh;
+
+    /* Mejor en móviles modernos: usa viewport real */
+    max-height: 78dvh;
+    max-height: 78svh; /* Safari/iOS suele ir mejor con svh */
+
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* si quieres “altura fija” (no solo max), úsala también pero sin romper fallback */
+  .modal-dialog {
+    height: 78vh;
+    height: 78dvh;
+    height: 78svh;
+  }
+
+  .modal-content {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .modal-body {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }

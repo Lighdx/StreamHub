@@ -353,6 +353,28 @@
       attributeFilter: ["data-theme", "class"]
     });
 
+    // ===== History state: Créditos =====
+    const creditsModal = document.getElementById("creditsModal");
+    const creditsCloseBtn = document.getElementById("creditsCloseBtn");
+    let creditsPushedState = false;
+
+    function isCreditsOpen() {
+      return creditsModal && creditsModal.classList.contains("is-visible");
+    }
+
+    function pushCreditsState() {
+      if (creditsPushedState) return;
+      history.pushState({ vsdCredits: true }, "", window.location.href);
+      creditsPushedState = true;
+    }
+
+    // Detectar apertura por footer/nav (o cualquier otra vía)
+    if (creditsModal) {
+      new MutationObserver(() => {
+        if (isCreditsOpen()) pushCreditsState();
+      }).observe(creditsModal, { attributes: true, attributeFilter: ["class", "aria-hidden"] });
+    }
+
     // Home: scroll al inicio
     if (navHome) {
       navHome.addEventListener("click", function () {
@@ -360,19 +382,18 @@
       });
     }
 
-    // Créditos: toggle (si está abierto lo cierra; si está cerrado lo abre)
+    // Créditos: toggle (con state)
     if (navCredits) {
       navCredits.addEventListener("click", function () {
-        const creditsModal = document.getElementById("creditsModal");
-        const creditsCloseBtn = document.getElementById("creditsCloseBtn");
-
-        const isOpen = creditsModal && creditsModal.classList.contains("is-visible");
+        const isOpen = isCreditsOpen();
 
         if (isOpen) {
-          if (creditsCloseBtn) creditsCloseBtn.click();
+          if (creditsPushedState) history.back();
+          else if (creditsCloseBtn) creditsCloseBtn.click();
           return;
         }
 
+        pushCreditsState();
         if (footerCreditsBtn) footerCreditsBtn.click();
         else window.dispatchEvent(new CustomEvent("vsd:open-credits"));
       });
@@ -423,6 +444,14 @@
 
     let panelIsOpen = false;
 
+    // ===== History state: Search panel =====
+    let searchPushedState = false;
+    function pushSearchState() {
+      if (searchPushedState) return;
+      history.pushState({ vsdSearchPanel: true }, "", window.location.href);
+      searchPushedState = true;
+    }
+
     function ensureAnchors() {
       if (searchInput && !searchAnchor.parentNode) searchInput.parentNode.insertBefore(searchAnchor, searchInput);
       if (filtersPanel && !filtersAnchor.parentNode) filtersPanel.parentNode.insertBefore(filtersAnchor, filtersPanel);
@@ -450,22 +479,17 @@
       if (sortAlphaBtn) panelPlatformsMount.appendChild(sortAlphaBtn);
 
       const liveInFilters = document.getElementById("liveToggleBtn");
-      if (liveInFilters) {
-        panelPlatformsMount.appendChild(liveInFilters);
-      }
+      if (liveInFilters) panelPlatformsMount.appendChild(liveInFilters);
 
       const gamesGroup = filtersPanel ? filtersPanel.querySelector(".games-filter-group") : null;
-
       if (gamesGroup) {
         let gamesTitle = filtersPanel.querySelector("#mobileGamesTitle");
-
         if (!gamesTitle) {
           gamesTitle = document.createElement("div");
           gamesTitle.id = "mobileGamesTitle";
           gamesTitle.className = "mobile-search-panel__section-title mobile-search-panel__section-title--spaced";
           gamesTitle.textContent = "Filtrar por juegos";
         }
-
         gamesGroup.parentNode.insertBefore(gamesTitle, gamesGroup);
       }
 
@@ -484,6 +508,8 @@
       mobileSearchPanel.setAttribute("aria-hidden", "false");
       document.body.classList.add("mobile-search-open");
       panelIsOpen = true;
+
+      pushSearchState();
 
       if (searchInput) setTimeout(() => searchInput.focus(), 0);
     }
@@ -513,22 +539,26 @@
         gamesPanel.setAttribute("aria-hidden", "true");
       }
 
-// Evitar aria-hidden sobre un ancestro que contiene el foco
-const active = document.activeElement;
-if (active && mobileSearchPanel.contains(active)) {
-  // Devuelve el foco a un botón visible (el de abrir búsqueda) o al body
-  if (navSearchBtn) navSearchBtn.focus();
-  else document.body.focus();
-}
+      // Evitar aria-hidden sobre un ancestro que contiene el foco
+      const active = document.activeElement;
+      if (active && mobileSearchPanel.contains(active)) {
+        if (navSearchBtn) navSearchBtn.focus();
+        else document.body.focus();
+      }
 
       mobileSearchPanel.setAttribute("aria-hidden", "true");
       document.body.classList.remove("mobile-search-open");
       panelIsOpen = false;
+      searchPushedState = false;
     }
 
     function toggleMobileSearchPanel() {
-      if (panelIsOpen) closeMobileSearchPanel();
-      else openMobileSearchPanel();
+      if (panelIsOpen) {
+        if (searchPushedState) history.back();
+        else closeMobileSearchPanel();
+      } else {
+        openMobileSearchPanel();
+      }
     }
 
     if (navSearchBtn) {
@@ -539,18 +569,47 @@ if (active && mobileSearchPanel.contains(active)) {
 
     if (mobileSearchCloseBtn) {
       mobileSearchCloseBtn.addEventListener("click", function () {
-        closeMobileSearchPanel();
+        if (searchPushedState) history.back();
+        else closeMobileSearchPanel();
       });
     }
 
     if (mobileSearchDummyCloseBtn) {
       mobileSearchDummyCloseBtn.addEventListener("click", function () {
-        closeMobileSearchPanel();
+        if (searchPushedState) history.back();
+        else closeMobileSearchPanel();
       });
     }
 
     document.addEventListener("keydown", function (evt) {
-      if (evt.key === "Escape" && panelIsOpen) closeMobileSearchPanel();
+      if (evt.key === "Escape" && panelIsOpen) {
+        if (searchPushedState) history.back();
+        else closeMobileSearchPanel();
+      }
     });
+
+    // ===== Popstate global: cerrar panel/créditos con back sin salir del sitio =====
+    window.addEventListener("popstate", function () {
+      if (panelIsOpen) {
+        closeMobileSearchPanel();
+        return;
+      }
+
+      if (isCreditsOpen()) {
+        creditsPushedState = false;
+
+        // mover foco fuera antes de aria-hidden (por seguridad)
+        const active = document.activeElement;
+        if (active && creditsModal && creditsModal.contains(active) && footerCreditsBtn) footerCreditsBtn.focus();
+
+        if (creditsCloseBtn) creditsCloseBtn.click();
+        return;
+      }
+    });
+
+
+
+
+    
   });
 })();

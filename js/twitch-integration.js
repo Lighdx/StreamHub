@@ -50,48 +50,65 @@
     }));
   }
 
+  function chunkArray(arr, size) {
+    const out = [];
+    for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size));
+    return out;
+  }
+
   const TwitchClient = {
     async getUsersData(usernames) {
       if (!Array.isArray(usernames) || usernames.length === 0) {
         throw new Error('No hay usernames para consultar');
       }
 
-      const cleanUsernames = [...new Set(usernames
-        .map(normalizeTwitchHandle)
-        .filter(u => u.length > 0)
-      )].slice(0, 100);
+      const uniqueUsernames = [...new Set(
+        usernames
+          .map(normalizeTwitchHandle)
+          .filter(u => u.length > 0)
+      )];
 
-      if (cleanUsernames.length === 0) {
+      if (uniqueUsernames.length === 0) {
         throw new Error('No hay usernames válidos');
       }
 
-      const cacheKey = cleanUsernames.join(',');
-      const cached = twitchDataCache.get(cacheKey);
-      if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
-        this._updateUserDataMap(cached.data);
-        return cached.data;
-      }
-
-      if (pendingRequests.has(cacheKey)) {
-        return pendingRequests.get(cacheKey);
-      }
-
-      if (abortController) {
-        abortController.abort();
-      }
-
+      // Aborta una "ronda" anterior completa (si existía)
+      if (abortController) abortController.abort();
       abortController = new AbortController();
-      const timeoutId = setTimeout(() => abortController.abort(), 8000);
 
-      const requestPromise = this._makeRequest(cleanUsernames, cacheKey, timeoutId);
-      pendingRequests.set(cacheKey, requestPromise);
+      const chunks = chunkArray(uniqueUsernames, 100);
+      let allOk = true;
 
-      try {
-        const data = await requestPromise;
-        return data;
-      } finally {
-        pendingRequests.delete(cacheKey);
+      // En serie para evitar rate limits del proxy / Twitch
+      for (const chunk of chunks) {
+        const cacheKey = chunk.join(',');
+        const cached = twitchDataCache.get(cacheKey);
+
+        if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
+          this._updateUserDataMap(cached.data);
+          continue;
+        }
+
+        if (pendingRequests.has(cacheKey)) {
+          const data = await pendingRequests.get(cacheKey);
+          if (!data) allOk = false;
+          continue;
+        }
+
+        const timeoutId = setTimeout(() => abortController.abort(), 8000);
+
+        const requestPromise = this._makeRequest(chunk, cacheKey, timeoutId);
+        pendingRequests.set(cacheKey, requestPromise);
+
+        try {
+          const data = await requestPromise;
+          if (!data) allOk = false;
+        } finally {
+          pendingRequests.delete(cacheKey);
+        }
       }
+
+      return allOk ? this._userDataMap : null;
     },
 
     async _makeRequest(usernames, cacheKey, timeoutId) {
@@ -172,7 +189,7 @@
 
     twitchIcon.dataset.followers = String(followers);
     twitchIcon.dataset.isLive = String(isLive);
-    twitchIcon.dataset.tooltip = `${Number(followers).toLocaleString()} seguidores`; // lo lee CSS via attr()
+    twitchIcon.dataset.tooltip = `${Number(followers).toLocaleString()} seguidores`;
   }
 
   function updateCardLiveIndicator(card, twitchData) {
@@ -265,12 +282,10 @@
   async function initTwitchIntegration(creators) {
     if (!creators || creators.length === 0) return;
 
-    // ✅ Guard: si vuelven a llamar init, no dupliques wrappers/observers
     allCreators = creators;
     allTwitchUsernames = extractTwitchUsernames(creators);
     if (allTwitchUsernames.length === 0) return;
 
-    // Si se re-inicializa, corta timers/requests anteriores
     if (abortController) abortController.abort();
     if (updateTimer) clearInterval(updateTimer);
 
@@ -284,7 +299,6 @@
       updateAllCreatorCards();
     }
 
-    // Wrap modal open SOLO una vez
     if (!modalWrapped && window.VSDModal && typeof window.VSDModal.open === "function") {
       modalWrapped = true;
       originalModalOpen = window.VSDModal.open;
@@ -377,7 +391,6 @@
         font-weight: 700;
       }
 
-      /* ✅ Tooltip Twitch SIN listeners: usa data-tooltip */
       .platform-icon-btn[data-platform="twitch"]{
         position: relative;
       }

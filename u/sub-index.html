@@ -3,31 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <title>StreamHUB - Perfil</title>
-  <link rel="stylesheet" href="/STREAMER/style-streamer.css">
+  <link rel="stylesheet" href="/css/sub-style.css">
 </head>
 <body>
   <div class="page">
-    <header class="headerbar">
-      <button class="back-btn">Volver al home</button>
-      <div class="logo">StreamHUB</div>
-    </header>
+<header class="headerbar">
+  <a href="/" class="back-btn">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span>Volver al home</span>
+  </a>
+
+  <div class="logo">
+    <span class="logo-stream">Stream</span><span class="logo-hub">HUB</span>
+  </div>
+</header>
+
 
     <main class="content">
       <section class="columns">
         <!-- COLUMNA IZQUIERDA -->
         <aside class="col-left">
           <div class="profile-photo-wrapper">
-            <img
-              src="/streamer/assets/profile-placeholder.jpg"
-              alt="Foto de perfil de BillyBillete"
-              class="profile-photo"
-            >
+<img
+  src="/assets/avatar-placeholder-1.png"
+  alt="Foto de perfil de BillyBillete"
+  class="profile-photo"
+>
           </div>
 
           <div class="profile-username">
             <h1 class="username">@BillyBillete</h1>
             <img
-              src="/streamer/assets/check.svg"
+              src="/assets/svg/verify.svg"
               alt="Cuenta verificada"
               class="username-check"
             >
@@ -72,7 +81,7 @@
       </section>
     </main>
   </div>
-<script defer src="/STREAMER/igdb-api.js"></script>
-<script defer src="/STREAMER/streamhub-profile.js"></script>
+<script defer src="/js/rawg-api.js"></script>
+<script defer src="/js/streamhub-profile.js"></script>
 </body>
 </html>

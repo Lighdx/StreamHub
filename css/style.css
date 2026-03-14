@@ -980,13 +980,13 @@ body.header-hidden .filters-section{
 .rrss-icon.rrss--tiktok { width: 16px; height: 16px; }
 
 /* Mapeo de archivos */
-.rrss--email { -webkit-mask-image: url("../assets/rrss/email.svg"); mask-image: url("../assets/rrss/email.svg"); }
-.rrss--tiktok { -webkit-mask-image: url("../assets/rrss/tiktok.svg"); mask-image: url("../assets/rrss/tiktok.svg"); }
-.rrss--ig { -webkit-mask-image: url("../assets/rrss/ig.svg"); mask-image: url("../assets/rrss/ig.svg"); }
-.rrss--kick { -webkit-mask-image: url("../assets/rrss/kick.svg"); mask-image: url("../assets/rrss/kick.svg"); }
-.rrss--twitch { -webkit-mask-image: url("../assets/rrss/twitch.svg"); mask-image: url("../assets/rrss/twitch.svg"); }
-.rrss--x { -webkit-mask-image: url("../assets/rrss/x.svg"); mask-image: url("../assets/rrss/x.svg"); }
-.rrss--youtube { -webkit-mask-image: url("../assets/rrss/youtube.svg"); mask-image: url("../assets/rrss/youtube.svg"); }
+.rrss--email { -webkit-mask-image: url("../assets/svg/rrss/email.svg"); mask-image: url("../assets/svg/rrss/email.svg"); }
+.rrss--tiktok { -webkit-mask-image: url("../assets/svg/rrss/tiktok.svg"); mask-image: url("../assets/svg/rrss/tiktok.svg"); }
+.rrss--ig { -webkit-mask-image: url("../assets/svg/rrss/ig.svg"); mask-image: url("../assets/svg/rrss/ig.svg"); }
+.rrss--kick { -webkit-mask-image: url("../assets/svg/rrss/kick.svg"); mask-image: url("../assets/svg/rrss/kick.svg"); }
+.rrss--twitch { -webkit-mask-image: url("../assets/svg/rrss/twitch.svg"); mask-image: url("../assets/svg/rrss/twitch.svg"); }
+.rrss--x { -webkit-mask-image: url("../assets/svg/rrss/x.svg"); mask-image: url("../assets/svg/rrss/x.svg"); }
+.rrss--youtube { -webkit-mask-image: url("../assets/svg/rrss/youtube.svg"); mask-image: url("../assets/svg/rrss/youtube.svg"); }
 
 /* Tus contenedores actuales */
 .platform-icon-btn svg { display: none; }
@@ -1876,18 +1876,18 @@ body.header-hidden .filters-section{
 
 /* Masks */
 .mobile-nav__icon--home {
-  -webkit-mask-image: url("/assets/rrss/home.svg");
-  mask-image: url("/assets/rrss/home.svg");
+  -webkit-mask-image: url("/assets/svg/home.svg");
+  mask-image: url("/assets/svg/home.svg");
 }
 
 .mobile-nav__icon--info {
-  -webkit-mask-image: url("/assets/rrss/about.svg");
-  mask-image: url("/assets/rrss/about.svg");
+  -webkit-mask-image: url("/assets/svg/about.svg");
+  mask-image: url("/assets/svg/about.svg");
 }
 
 .mobile-nav__icon--search {
-  -webkit-mask-image: url("/assets/rrss/search.svg");
-  mask-image: url("/assets/rrss/search.svg");
+  -webkit-mask-image: url("/assets/svg/search.svg");
+  mask-image: url("/assets/svg/search.svg");
 }
 
 /* PLUS: no mask/background (el + lo dibuja ::after en tu CSS) */
